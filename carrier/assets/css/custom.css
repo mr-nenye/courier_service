@@ -40,7 +40,11 @@ a {
 /*======================================================
                     Components
   ======================================================*/
-
+.wrapper{
+    width: 70%;
+    margin: 0 auto;
+    height: inherit;
+}
 .container {
   width: 80%;
   margin: 0 auto;
