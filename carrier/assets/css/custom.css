@@ -374,7 +374,7 @@ a {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 33px 30px;
+  padding: 33px 0;
 }
 
 .wrap-table100 {
@@ -386,7 +386,7 @@ a {
   font-weight: 500;
 }
 .table-title {
-  margin: 0 0 0 30px;
+  margin: 0 0 0 0;
   width: 73%;
   font-size: 20px;
   align-self: center;
@@ -620,7 +620,7 @@ tbody tr:hover {
 .cd-popup-container {
   position: relative;
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   background: #FFF;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -641,8 +641,10 @@ tbody tr:hover {
 .cd-popup-container .cd-popup-body {
   padding: 50px 20px 0px 20px;
   border-top: 1px solid #ececec;
-  border-bottom: 1px solid #ececec;
   margin: 60px 0;
+}
+.cd-popup-container .cd-content {
+  height: auto;
 }
 .cd-popup-container .cd-popup-body p {
   padding: 3em 1em;
@@ -657,7 +659,7 @@ tbody tr:hover {
   position: relative;
 }
 .cd-popup-container .cd-buttons .btn {
-  margin: 15px;
+  margin: 15px 35px 15px 0;
 }
 .cd-popup-container .cd-popup-title {
   position: absolute;
@@ -1147,7 +1149,6 @@ tbody tr:hover {
 label{
   font: 300 16px/1.7 'Calibri', sans-serif;
   color: #666;
-  cursor: pointer;
   margin-right: 30px;
 }
 
