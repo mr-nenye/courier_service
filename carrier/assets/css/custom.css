@@ -64,6 +64,11 @@ a {
   padding: 50px 0;
 }
 
+.tags {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
 .btn {
   border-radius: 3px;
   padding: 15px 50px;
@@ -165,6 +170,11 @@ a {
   background-image: none;
   border: 1px solid #ddd;
   border-radius: 3px;
+}
+
+/* box-shadow */
+.shadow {
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* modified heights */
@@ -1154,7 +1164,7 @@ label{
 
 .--bg-pattern {
   background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('../img/3px-tile.png');
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .tabs {
@@ -1439,4 +1449,155 @@ label{
 .menulist a i {
   font-size: 20px;
   margin-right: 15px;
+}
+
+/* mystuff */
+.box-of-stuff {
+  width: 100%;
+  margin: auto;
+  padding: 20px 0;
+  border: 1px solid #ececec;
+  transition: 0.3s all;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.05);
+}
+.box-of-stuff:hover {
+  transition: 0.3s all;
+  box-shadow: 0 3px 40px rgba(0, 0, 0, 0.1);
+}
+.box-of-stuff .desp {
+  font-size: 12px;
+  text-align: left;
+  line-height: 2;
+  padding: 10px 20px;
+}
+.box-of-stuff small {
+  font-weight: 600;
+  font-size: 10px;
+  display: block;
+  padding: 20px;
+}
+.box-of-stuff span {
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px 20px;
+  display: block;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ececec;
+}
+.box-of-stuff .view-bid-btn {
+  width: 100%;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* route timelinw */
+.timeline-item {
+  padding: 3em 2em 0em;
+  position: relative;
+  color: rgba(0, 0, 0, 1);
+  border-left: 1.4px dashed #428BFF;
+  margin-left: 20px;
+}
+.timeline-item::before {
+  content: attr(date-is);
+  position: absolute;
+  left: 2em;
+  font-weight: bold;
+  top: 1em;
+  display: block;
+  font-weight: 500;
+  font-size: .85rem;
+}
+.timeline-item::after {
+  width: 10px;
+  height: 10px;
+  display: block;
+  top: 1em;
+  position: absolute;
+  left: -7px;
+  border-radius: 10px;
+  content: '';
+  border: 1.4px solid #428BFF;
+  background: white;
+}
+.timeline-item:last-child {
+  padding: 3em 2em 1em;
+  -o-border-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0)) 1 100%;
+     border-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0)) 1 100%;
+}
+
+/*
+article.card {
+  width: 350px;
+  height: 350px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+article.card .infos {
+  width: auto;
+  height: 350px;
+  position: relative;
+  padding: 14px 24px;
+  background: #fff;
+  transition: 0.4s 0.15s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+}
+article.card .infos .title {
+  position: relative;
+  margin: 10px 0;
+  letter-spacing: 3px;
+  color: #152536;
+  font-size: 1rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 0px #32577f;
+}
+article.card .infos .date, article.card .infos .seats {
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-size: .85rem;
+  color: rgba(21, 37, 54, 0.7);
+}
+article.card .infos .seats {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+}
+article.card .infos .txt {
+  line-height: 2;
+  font-size: .8rem;
+  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+}
+article.card .infos .details {
+  position: absolute;
+  left: 0;
+  left: 0;
+  bottom: 0;
+  margin: 10px 0;
+  padding: 20px 24px;
+  letter-spacing: 1px;
+  color: #4e958b;
+  font-size: .9rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+}
+*/
+
+/* map display */
+.map-section {
+  width: 100%;
+  height: 50vh;
+  background: rgba(255, 0, 0, 0.2);
+  margin-top: 60px;
+}
+.throwback-btn {
+  position: absolute;
+  padding: 15px;
+  background: #FFF;
+  top: 150px;
+  left: 150px;
+  border-radius: 50%;
+  cursor: pointer;
 }
