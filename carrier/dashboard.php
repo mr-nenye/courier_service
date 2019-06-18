@@ -5,8 +5,6 @@
 
   $userId = $_SESSION['id'];
 
-  echo $userId;
-
   $getUserDetails = "SELECT * FROM users WHERE userId = '$userId'";
   $run = mysqli_query($conn, $getUserDetails);
   if (mysqli_num_rows($run) > 0) {
@@ -95,6 +93,90 @@
         <div class="content-section">
           <div class="container">
 
+            <?php if($role === 'commissioner') { ?>
+
+            <div class="row">
+              <div class="col-4 col-md-4 col-sm-12">
+                <div class="stat-card">
+                  <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
+                  <p class="stat-by-number">
+                    <?php
+
+                      $sql="SELECT * FROM biditem WHERE sellerId = $userId";
+
+                      if ($result=mysqli_query($conn,$sql)) {
+                        // Return the number of rows in result set
+                        $rowcount=mysqli_num_rows($result);
+                        printf(" %d \n",$rowcount);
+                        // Free result set
+                        mysqli_free_result($result);
+                      }
+
+                    ?>
+                   </p>
+                   <small class="stat-title"> Total number of upload </small>
+                   <span class="sparkline">
+                    <span class="index"><span class="count" style="height: 27%;">(60,</span> </span>
+                    <span class="index"><span class="count" style="height: 97%;">220,</span> </span>
+                    <span class="index"><span class="count" style="height: 62%;">140,</span> </span>
+                    <span class="index"><span class="count" style="height: 35%;">80,</span> </span>
+                    <span class="index"><span class="count" style="height: 49%;">110,</span> </span>
+                    <span class="index"><span class="count" style="height: 40%;">90,</span> </span>
+                    <span class="index"><span class="count" style="height: 80%;">180,</span> </span>
+                    <span class="index"><span class="count" style="height: 62%;">140,</span> </span>
+                    <span class="index"><span class="count" style="height: 53%;">120,</span> </span>
+                    <span class="index"><span class="count" style="height: 71%;">160,</span> </span>
+                    <span class="index"><span class="count" style="height: 78%;">175,</span> </span>
+                    <span class="index"><span class="count" style="height: 100%;">225,</span> </span>
+                    <span class="index"><span class="count" style="height: 78%;">175,</span> </span>
+                    <span class="index"><span class="count" style="height: 56%;">125)</span> </span>
+                  </span>
+                </div>
+              </div>
+              <div class="col-4 col-md-4 col-sm-12">
+                <div class="stat-card">
+                  <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
+                  <p class="stat-by-number">
+                    <?php
+
+                      $sql="SELECT * FROM biditem WHERE sellerId = $userId";
+
+                      if ($result=mysqli_query($conn,$sql)) {
+                        // Return the number of rows in result set
+                        $rowcount=mysqli_num_rows($result);
+                        printf(" %d \n",$rowcount);
+                        // Free result set
+                        mysqli_free_result($result);
+                      }
+
+                    ?>
+                   </p>
+                   <small class="stat-title"> Total number of Bid recieved </small>
+                </div>
+              </div>
+              <div class="col-4 col-md-4 col-sm-12">
+                <div class="stat-card">
+                  <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
+                  <p class="stat-by-number">
+                    <?php
+
+                      $sql="SELECT * FROM biditem WHERE sellerId = $userId";
+
+                      if ($result=mysqli_query($conn,$sql)) {
+                        // Return the number of rows in result set
+                        $rowcount=mysqli_num_rows($result);
+                        printf(" %d \n",$rowcount);
+                        // Free result set
+                        mysqli_free_result($result);
+                      }
+
+                    ?>
+                   </p>
+                   <small class="stat-title"> Total number of upload </small>
+                </div>
+              </div>
+            </div>
+
             <!-- table display -->
             <div class="limiter">
               <div class="table-tops">
@@ -114,30 +196,45 @@
           								<th class="column3">Name</th>
           								<th class="column4">Price</th>
           								<th class="column5">Bids</th>
-          								<th class="column6">Action</th>
+          								<th class="column6">  </th>
           							</tr>
           						</thead>
           						<tbody>
-          								<tr>
-          									<td class="column1">2017-09-29 01:22</td>
-          									<td class="column2">200398</td>
-          									<td class="column3">iPhone X 64Gb Grey</td>
-          									<td class="column4">₦ 999.00</td>
-          									<td class="column5">4</td>
-          									<td class="column6">
-                              <a href="#" class="tbl-btn"> view bids </a>
-                            </td>
-          								</tr>
-          								<tr>
-          									<td class="column1">2017-09-18 05:57</td>
-          									<td class="column2">200386</td>
-          									<td class="column3">iPhone X 64Gb Grey</td>
-          									<td class="column4">₦ 999.00</td>
-          									<td class="column5">2</td>
-          									<td class="column6">
-                              <a href="#" class=""> view bids </a>
-                            </td>
-          								</tr>
+                        <?php
+
+                          $getMyStuffs = "SELECT * FROM biditem WHERE sellerId = $userId ORDER BY date_made DESC";
+                          $run = mysqli_query($conn, $getMyStuffs);
+
+                          if (mysqli_num_rows($run) > 0) {
+                            // code...
+                            while($row = mysqli_fetch_array($run)) {
+                              echo "<tr>
+              									<td class='column1'>".$row['date_made']."</td>
+              									<td class='column2'>200398</td>
+              									<td class='column3'>".$row['name']."</td>
+              									<td class='column4'>".$row['startprice']."</td>
+              									<td class='column5'>4</td>
+              									<td class='column6'>
+                                  <a href='overview?q=".$row['itemId']."' class=''> view </a>
+                                  <a href='' class='tbl-btn'> view bids </a>
+                                </td>
+              								</tr>";
+                            }
+                          } else {
+
+                            echo "<tr class='empty-state'>
+                                    <td colspan='6' class='--center'>
+                                      <div class='--pad-y-40'>
+                                        <p class='empty-state-icon'> <i class='lni-folder'></i> </p>
+                                        <p style='margin-top: -50px;'> Its lonely here, you have not added any item for transport </p>
+                                        <a href='' class='cd-popup-trigger'> click here to create an item </a>
+                                      </div>
+                                    </td>
+                                  </tr";
+
+                          }
+
+                         ?>
 
           						</tbody>
           					</table>
@@ -155,6 +252,8 @@
           			</div>
           		</div>
           	</div>
+
+            <!-- popup -->
 
             <div class="cd-popup" role="alert">
             	<div class="cd-popup-container">
@@ -326,6 +425,89 @@
             	</div> <!-- cd-popup-container -->
             </div> <!-- cd-popup -->
 
+          <?php  } elseif ($role === 'carrier') {?>
+
+            <div class="row">
+
+              <?php
+                $getPublicItems = "SELECT * FROM biditem";
+                $runget = mysqli_query($conn, $getPublicItems);
+
+                if (mysqli_num_rows($runget) > 0) {
+                  // code...
+                  while($rec = mysqli_fetch_array($runget)) {
+
+                    echo '
+                    <div class="col-4 col-md-4 col-sm-12">
+                      <div class="box-of-stuff">
+                        <span class="box-name"> '.$rec["name"].' </span>
+
+                        <!-- <p class="desp"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p> -->
+
+                        <div class="row">
+                          <div class="col-6 col-md-6 col-sm-12">
+                            <label for="" class="label "> Pick up State </label>
+                            <span class="desp"> '.$rec["fromstate"].' </span>
+                          </div>
+                          <div class="col-6 col-md-6 col-sm-12">
+                            <label for="" class="label "> Pick up Address </label>
+                            <span class="desp"> '.$rec["fromaddress"].' </span>
+                          </div>
+                          <div class="col-6 col-md-6 col-sm-12">
+                            <label for="" class="label "> Delivery State </label>
+                            <span class="desp"> '.$rec["tostate"].' </span>
+                          </div>
+                          <div class="col-6 col-md-6 col-sm-12">
+                            <label for="" class="label "> Delivery Address </label>
+                            <span class="desp"> '.$rec["toaddress"].' </span>
+                          </div>
+                          <div class="col-12 col-md-12 col-sm-12">
+                            <label for="" class="label "> Starting Price </label>
+                            <span class="desp"> '.$rec["startprice"].' </span>
+                          </div>
+                        </div>
+
+                        <div class="view-bid-btn">
+                          <button href="" class="btn --btn-primary cd-popup-trigger" id="'.$rec["itemId"].'"> Place Bid </button>
+                        </div>
+                      </div>
+                    </div>
+                    ';
+
+                  }
+                }
+               ?>
+
+               <!-- popup -->
+
+               <div class="cd-popup" role="alert">
+               	<div class="cd-popup-container cd-popup-container-sm">
+                   <form class="" action="" method="post" id="bidform">
+                    <span class="cd-popup-title"> Make Bid </span>
+
+                 		<div class="cd-popup-body">
+                       <div class="cd-content" id="item_detail">
+                        <!-- display bid popup here -->
+                        <input type="hidden" class="txt-input userId" value="<?php echo $userId; ?>" placeholder="enter the name of the item" name="userId">
+                       </div>
+                     </div>
+                     <div class="cd-buttons">
+                       <span class="btn --btn-flat close"> Close</span>
+                       <button type="submit" name="button" class="btn --btn-primary"> Place Bid </button>
+                     </div>
+
+                 		<a href="#0" class="cd-popup-close img-replace"></a>
+                   </form>
+
+               	</div> <!-- cd-popup-container -->
+               </div> <!-- cd-popup -->
+
+
+            </div>
+
+
+          <?php } ?>
+
           </div>
         </div>
       </div>
@@ -409,6 +591,57 @@
               alert(result);
              if(result==0){
                //alert("invalid");
+               $("#message").html("An error occured. Item nor added");
+               $("#message").css("color", "red");
+             } else{
+               $("#message").html("Item added Successfully");
+               $("#message").css("color", "green");
+              }
+            }
+          })
+        }
+        e.preventDefault();
+      })
+
+      $(document).on('click', '.cd-popup-trigger', function(){
+        //$('#dataModal').modal();
+        var item_id = $(this).attr("id");
+        $.ajax({
+         url:"functions/select.php",
+         method:"POST",
+         data:{item_id:item_id},
+         success:function(data){
+          $('#item_detail').html(data);
+          $('.cd-popup').addClass('is-visible');
+         }
+        });
+      });
+
+      $("#bidform").on("submit", function(e) {
+        // e.preventDefault();
+        $('.error-oppoBid').html('');
+
+        var oppoBid = $(".oppoBid").val();
+        var item_id = $(".item_id").val();
+        var userId = $(".userId").val();
+
+        if($(".oppoBid").val()==""){
+          $(".error-oppoBid").html("Enter your countr bid.");
+          $(".error-oppoBid").css("color", "red");
+          $(".oppoBid").focus();
+        }else {
+          $.ajax({
+            type: "POST",
+            url:"functions/placebid.php",
+            data: {
+              "oppoBid":oppoBid,
+              "item_id":item_id,
+              "userId":userId
+            },
+            success:function(result){
+              alert(result);
+             if(result==0){
+               // alert(result);
                $("#message").html("An error occured. Item nor added");
                $("#message").css("color", "red");
              } else{
