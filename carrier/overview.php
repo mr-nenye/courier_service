@@ -1,3 +1,32 @@
+
+<?php
+
+  require 'functions/dbcon.php';
+
+  session_start();
+
+  $userId = $_SESSION['id'];
+
+  echo $userId;
+
+  $getUserDetails = "SELECT * FROM users WHERE userId = '$userId'";
+  $run = mysqli_query($conn, $getUserDetails);
+  if (mysqli_num_rows($run) > 0) {
+    // code...
+    while($row = mysqli_fetch_array($run)) {
+
+      $role = $row['role'];
+      $name = $row['name'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+    }
+  }
+
+
+  $itemId = $_GET['q'];
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -27,7 +56,7 @@
                   <li><a href="#home">How it works</a></li>
                   <li><a href="services.html">About</a></li>
                   <li><a href="about.html">Help</a></li>
-                  <li><a href="contact.html">Login / Register</a></li>
+                  <li><a href="contact.html"> <i class="lni-user"></i> <?php echo $name; ?> </a></li>
               </ul>
           </div>
       </nav>
@@ -47,7 +76,7 @@
       </div>
 
       <div class="map-section">
-        <small class="throwback-btn"> <i class="lni-close"></i> </small>
+        <small class="throwback-btn" onclick="goBack()"> <i class="lni-close"></i>   Close </small>
         <!-- <iframe src="https://maps.googleapis.com/maps/api/directions/json?origin=Abuja&destination=Lagos&key=AIzaSyDCbMg2d3Wu1jCbEyhp4tZuPEKuwdeM0ho" width="1660" height="500" frameborder="0" style="border:0" allowfullscreen></iframe> -->
         <!-- <iframe src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDCbMg2d3Wu1jCbEyhp4tZuPEKuwdeM0ho&origin=Abuja&destination=Lagos" width="1660" height="500"></iframe> -->
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.3074910877867!2d7.4756708509614205!3d9.035689591338738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0b79da613c07%3A0x8c06400f40c0d846!2sArea+2+Shopping+Complex!5e0!3m2!1sen!2sng!4v1558508745467!5m2!1sen!2sng" width="1660" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
@@ -58,46 +87,59 @@
         <div class="row">
           <div class="col-8 col-md-8 col-sm-12">
             <div class="row">
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Item name </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Category </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Pickup address </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Pickup state </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Recipient name </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Recipient phone number </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Destination address </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Destination state </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Quantity </label>
-                <p> Placeholder text </p>
-              </div>
-              <div class="col-6 col-md-6 col-sm-12">
-                <label for="" class="label "> Carrier price </label>
-                <p> Placeholder text </p>
-              </div>
+              <?php
+
+                $getDetails = "SELECT * FROM biditem WHERE itemId = $itemId ";
+                $run = mysqli_query($conn, $getDetails);
+
+                if (mysqli_num_rows($run) > 0 ) {
+                  // code...
+                  while ($roc = mysqli_fetch_array($run)) {
+                    // code...
+                    echo "<div class='col-6 col-md-6 col-sm-12'>
+                      <label for='' class='label '> Item name </label>
+                      <p>".$roc['name']."</p>
+                    </div>
+                    <div class='col-6 col-md-6 col-sm-12'>
+                      <label for='' class='label '> Category </label>
+                      <p> ".$roc['category']." </p>
+                    </div>
+                    <div class='col-6 col-md-6 col-sm-12'>
+                      <label for='' class='label '> Pickup address </label>
+                      <p> ".$roc['fromaddress']." </p>
+                    </div>
+                   <div class='ol-6 col-md-6 col-sm-12'>
+                     <label for='' class='label '> Pickup state </label>
+                     <p> ".$roc['fromstate']." </p>
+                   </div>
+                  <div class='col-6 col-md-6 col-sm-12'>
+                    <label for='' class='label '> Recipient name </label>
+                    <p> ".$roc['recievername']." </p>
+                  </div>
+                   <div class='col-6 col-md-6 col-sm-12'>
+                     <label for='' class='label '> Recipient phone number </label>
+                     <p> ".$roc['recieverphone']." </p>
+                   </div>
+                  <div class='col-6 col-md-6 col-sm-12'>
+                    <label for='' class='label '> Destination address </label>
+                    <p> ".$roc['toaddress']." </p>
+                  </div>
+                 <div class='col-6 col-md-6 col-sm-12'>
+                   <label for='' class='label '> Destination state </label>
+                   <p> ".$roc['tostate']." </p>
+                 </div>
+                <div class='col-6 col-md-6 col-sm-12'>
+                  <label for='' class='label '> Quantity </label>
+                  <p> ".$roc['quantity']." </p>
+                </div>
+               <div class='col-6 col-md-6 col-sm-12'>
+                 <label for='' class='label '> Starting price </label>
+                 <p> ".$roc['startprice']." </p>
+               </div>";
+                  }
+                }
+
+               ?>
             </div>
           </div>
           <div class="col-4 col-md-4 col-sm-12">
@@ -120,6 +162,10 @@
       </div>
 
     </div>
-
+    <script type="text/javascript">
+      goBack = () => {
+        window.history.back();
+      }
+    </script>
   </body>
 </html>
