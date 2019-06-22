@@ -27,7 +27,7 @@
     <title> Welcome to your Carrier home - Dashboard </title>
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/flexgrid.css">
-    <link rel="stylesheet" href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
   </head>
   <body>
 
@@ -45,10 +45,19 @@
 
               <!-- Navbar Links -->
               <ul id="menu">
-                  <li><a href="#home">How it works</a></li>
-                  <li><a href="services.html">About</a></li>
-                  <li><a href="about.html">Help</a></li>
-                  <li><a href="contact.html"> <i class="lni-user"></i> <?php echo $name; ?> </a></li>
+                  <li><a href="services.html"> <i data-feather="message-square"></i> <span> 3 </span> </a></li>
+                  <li><a href="about.html"> <i data-feather="bell"></i> <span> 1 </span> </a></li>
+                  <!-- <li><a href="contact.html"> <i data-feather="user"></i> <?php echo $name; ?> </a></li> -->
+                  <li>
+                    <div class="user-info">
+                      <div class="avatar">
+                        <i data-feather="user"></i>
+                      </div>
+                      <div class="name">
+                        <?php echo $name; ?>
+                      </div>
+                    </div>
+                  </li>
               </ul>
           </div>
       </nav>
@@ -68,30 +77,30 @@
       </div>
 
       <div class="main-section">
-        <!-- <div class="sidemenu">
+        <div class="sidemenu">
 
           <div class="menulist">
             <a href="#">
-              <i class="lni-travel"></i>
-              My Trips
+              <i data-feather="home"></i>
+              Dashboard
             </a>
             <a href="#">
-              <i class="lni-archive"></i>
-              My Packages
+              <i data-feather="message-square"></i>
+              Messages
             </a>
             <a href="#">
-              <i class="lni-travel"></i>
+              <i data-feather="user"></i>
               Pick up
             </a>
             <a href="#">
-              <i class="lni-travel"></i>
+              <i data-feather="power"></i>
               Pick up
             </a>
           </div>
 
-        </div> -->
+        </div>
         <div class="content-section">
-          <div class="container">
+          <div class="container-lg">
 
             <?php if($role === 'commissioner') { ?>
 
@@ -180,15 +189,15 @@
             <!-- table display -->
             <div class="limiter">
               <div class="table-tops">
-                <span class="table-title"> Table Title </span>
-                <span class="btn --btn-primary cd-popup-trigger"> <i class="lni-plus"></i> create new delivery</span>
-                <!-- <span class="table-switch --list"> <i class="lni-list"></i> </span>
-                <span class="table-switch --grid"> <i class="lni-grid-alt"></i> </span> -->
+                <span class="table-title"> Dasboard Overview </span>
+                <span class="btn --btn-primary cd-popup-trigger"> <i data-feather="file-plus"></i> create new delivery</span>
+                <span class="table-switch --list"> <i data-feather="list"></i> </span>
+                <span class="table-switch --grid"> <i data-feather="grid"></i> </span>
               </div>
           		<div class="container-table100">
           			<div class="wrap-table100">
           				<div class="table100">
-          					<table>
+          					<table class="list-view">
           						<thead>
           							<tr class="table100-head">
           								<th class="column1">Date</th>
@@ -201,8 +210,7 @@
           						</thead>
           						<tbody>
                         <?php
-
-                          $getMyStuffs = "SELECT * FROM biditem WHERE sellerId = $userId ORDER BY date_made DESC";
+                          $getMyStuffs = "SELECT DISTINCT a.*, (SELECT COUNT(*) FROM bidreport WHERE productid = a.itemId ) AS total FROM biditem a WHERE a.sellerId = $userId ORDER BY date_made DESC";
                           $run = mysqli_query($conn, $getMyStuffs);
 
                           if (mysqli_num_rows($run) > 0) {
@@ -213,9 +221,9 @@
               									<td class='column2'>200398</td>
               									<td class='column3'>".$row['name']."</td>
               									<td class='column4'>".$row['startprice']."</td>
-              									<td class='column5'>4</td>
+              									<td class='column5'>".$row['total']."</td>
               									<td class='column6'>
-                                  <a href='overview?q=".$row['itemId']."' class=''> view </a>
+                                  <a href='overview?q=".$row['itemId']."' class=''> Open </a> &nbsp;&nbsp;&nbsp;
                                   <a href='' class='tbl-btn'> view bids </a>
                                 </td>
               								</tr>";
@@ -238,6 +246,38 @@
 
           						</tbody>
           					</table>
+
+                    <div class="card-view">
+                      <div class="row">
+                      <?php
+                        $getMyStuffs = "SELECT DISTINCT a.*, (SELECT COUNT(*) FROM bidreport WHERE productid = a.itemId ) AS total FROM biditem a WHERE a.sellerId = $userId ORDER BY date_made DESC";
+                        $run = mysqli_query($conn, $getMyStuffs);
+
+                        if (mysqli_num_rows($run) > 0) {
+                          // code...
+                          while($row = mysqli_fetch_array($run)) {
+                            echo "<div class='col-4 col-md-4 col-sm-12'>
+                              <div class='panel'>
+                                <div class='panel-header'>
+                                  somthing new
+                                </div>
+                                <div class='panel-body job'>
+                                  <span class='badge badge-success'> ".$row['startprice']."  </span>
+                                  <h4> ".$row['name']." </h4>
+                                  <ul class='tags'>
+                                    <li> 3 new messages </li>
+                                    <li> ".$row['total']." bids </li>
+                                  </ul>
+                                  <span class='date'> <i data-feather='calendar'></i> ".$row['date_made']." </span>
+                                  <a href='' class='badge badge-link'> ".$row['total']." Bids </a>
+                                </div>
+                              </div>
+                            </div>";
+                          }
+                        }
+                      ?>
+                    </div>
+                    </div>
                     <div class="pagination p2">
                      <ul>
                        <a href="#"><li>1</li></a>
@@ -252,6 +292,7 @@
           			</div>
           		</div>
           	</div>
+
 
             <!-- popup -->
 
@@ -653,7 +694,28 @@
         }
         e.preventDefault();
       })
-    </script>
 
+      $(document).ready( function() {
+
+        let cardView  = document.querySelector(".card-view");
+        $("cardView").css("display", "none");
+        $(".--list").on('click', function(e) {
+          // e.preventDefault();
+          $(".card-view").css("display", "none");
+          $(".list-view").css("display", "block");
+        })
+
+        $(".--grid").on('click', function(e) {
+          // e.preventDefault();
+          $(".list-view").css("display", "none");
+          $(".card-view").css("display", "block");
+        })
+      })
+
+
+    </script>
+    <script>
+      feather.replace()
+    </script>
   </body>
 </html>
