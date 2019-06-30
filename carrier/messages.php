@@ -80,11 +80,11 @@
         <div class="sidemenu">
 
           <div class="menulist">
-            <a href="#">
+            <a href="dashboard">
               <i data-feather="home"></i>
               Dashboard
             </a>
-            <a href="#">
+            <a href="messages">
               <i data-feather="message-square"></i>
               Messages
             </a>

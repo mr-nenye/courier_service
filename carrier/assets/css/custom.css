@@ -2,6 +2,7 @@
 
 * {
   box-sizing: border-box;
+  font-size: 10px;
 }
 html,
 body {
@@ -449,6 +450,7 @@ a {
 .table-switch {
   color: #428BFF;
   font-weight: 500;
+  font-size: 12px;
   width: 5%;
   margin: 0 0 0 0;
   text-align: center;
@@ -1260,7 +1262,7 @@ tbody tr.empty-state:hover {
   margin: 0 auto;
 }
 label{
-  font: 300 16px/1.7 'Calibri', sans-serif;
+  font: 300 14px/1.7 'Calibri', sans-serif;
   color: #666;
   margin-right: 30px;
 }
@@ -1834,7 +1836,7 @@ article.card .infos .details {
   font-size: 12px;
 }
 .panel-body.job .date {
-  font-size: 0.875rem;
+  font-size: 0.975rem;
   color: #BEC5D2;
   margin-bottom: 1.25rem;
   display: flex;
@@ -1877,12 +1879,12 @@ article.card .infos .details {
   color: #BDC5D0;
 }
 .panel-user .content .time {
-  font-size: 0.875rem;
-  color: #797B89;
+  font-size: 0.975rem;
+  color: #666;
 }
 .panel-user .content .text {
-  font-size: 0.75rem;
-  color: #BEC5D2;
+  font-size: 0.95rem;
+  color: #444;
 }
 .panel-message-header {
   background-color: #FAFBFF;
@@ -1905,11 +1907,12 @@ article.card .infos .details {
   display: table;
   max-width: 400px;
   border-radius: 0 0.5rem 0.5rem 0.5rem;
-  font-size: 0.675rem;
+  font-size: 0.975rem;
   padding: 0.75rem 1.125rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   margin-bottom: 0.75rem;
   margin-left: calc(30px + 1rem);
+  line-height: 1.8;
 }
 .message-content .message .date {
   color: #A9A9B2;
@@ -2007,7 +2010,7 @@ article.card .infos .details {
 	background-color: transparent;
 	width: calc(100% - 130px);
 	border: 0;
-  font-size: 0.745rem;
+  font-size: 0.995rem;
 	color: #787D8A;
 }
 
@@ -2111,4 +2114,51 @@ article.card .infos .details {
 .d-flex {
   display: -ms-flexbox!important;
   display: flex!important;
+}
+
+
+/* Overview page design */
+.data_layer {
+  width: 100%;
+  display: flex;
+  margin-top: 60px;
+}
+.data_layer .data {
+  width: 30%;
+  height: 100vh;
+  max-height: 91.5vh;
+  border-right: 1px solid #ECEDF2;
+  box-shadow: 3px 0 16px rgba(0,0,0,0.05);
+  position: relative;
+}
+.data_layer #map {
+  width: 70%;
+  height: 91.5vh;
+  max-height: 91.5vh;
+}
+.data_layer #map iframe {
+  width: 100%;
+  height: 91.5vh;
+  border: none;
+}
+
+.content-box {
+  width: 80%;
+  margin: 20px auto 0;
+  box-sizing: border-box;
+  padding: 10px;
+  border-bottom: 1px solid #ececec;
+  color: rgba(0, 0, 0, 1);
+}
+.content-box--header {
+  display: flex;
+  align-self: center;
+  padding: 5px 0 10px 0;
+}
+.content-box--header svg {
+  width: 18px;
+}
+.content-box--header span {
+  font-size: 12px;
+  margin: 5px 0 0 15px;
 }

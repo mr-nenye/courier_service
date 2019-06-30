@@ -48,3 +48,87 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
   </body>
 </html>
+
+
+<?php
+
+  $getDetails = "SELECT * FROM biditem WHERE itemId = $itemId ";
+  $run = mysqli_query($conn, $getDetails);
+
+  if (mysqli_num_rows($run) > 0 ) {
+    // code...
+    while ($roc = mysqli_fetch_array($run)) {
+        echo "<div class='map-section'>
+          <small class='throwback-btn' onclick='goBack()'> <i class='lni-close'></i>   Close </small>
+          <iframe src='https://www.google.com/maps/embed/v1/directions?&origin=".$roc['fromstate']."&destination=".$roc['tostate']."&key=AIzaSyCUSDfomnwJIkuO7qA3zgNwfU8G94tB4X4' width='1494' height='500'></iframe>
+        </div>
+
+        <div class='container'>
+          <div class='row'>
+            <div class='col-8 col-md-8 col-sm-12'>
+              <div class='row'>
+              <div class='col-6 col-md-6 col-sm-12'>
+                <label for='' class='label '> Item name </label>
+                <p>".$roc['name']."</p>
+              </div>
+              <div class='col-6 col-md-6 col-sm-12'>
+                <label for='' class='label '> Category </label>
+                <p> ".$roc['category']." </p>
+              </div>
+              <div class='col-6 col-md-6 col-sm-12'>
+                <label for='' class='label '> Pickup address </label>
+                <p> ".$roc['fromaddress']." </p>
+              </div>
+             <div class='ol-6 col-md-6 col-sm-12'>
+               <label for='' class='label '> Pickup state </label>
+               <p> ".$roc['fromstate']." </p>
+             </div>
+            <div class='col-6 col-md-6 col-sm-12'>
+              <label for='' class='label '> Recipient name </label>
+              <p> ".$roc['recievername']." </p>
+            </div>
+             <div class='col-6 col-md-6 col-sm-12'>
+               <label for='' class='label '> Recipient phone number </label>
+               <p> ".$roc['recieverphone']." </p>
+             </div>
+            <div class='col-6 col-md-6 col-sm-12'>
+              <label for='' class='label '> Destination address </label>
+              <p> ".$roc['toaddress']." </p>
+            </div>
+           <div class='col-6 col-md-6 col-sm-12'>
+             <label for='' class='label '> Destination state </label>
+             <p> ".$roc['tostate']." </p>
+           </div>
+          <div class='col-6 col-md-6 col-sm-12'>
+            <label for='' class='label '> Quantity </label>
+            <p> ".$roc['quantity']." </p>
+          </div>
+         <div class='col-6 col-md-6 col-sm-12'>
+           <label for='' class='label '> Starting price </label>
+           <p> ".$roc['startprice']." </p>
+         </div>
+
+      </div>
+    </div>
+    <div class='col-4 col-md-4 col-sm-12'>
+      <div class='row'>
+        <div class='col-12 col-md-12 col-sm-12'>
+          <label for='' class='label '> Courier image </label>
+          <p> Placeholder text </p>
+        </div>
+        <div class='col-6 col-md-6 col-sm-12'>
+          <label for='' class='label '> Courier name </label>
+          <p> Placeholder text </p>
+        </div>
+        <div class='col-6 col-md-6 col-sm-12'>
+          <label for='' class='label '> Courier phone number </label>
+          <p> Placeholder text </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>";
+  }
+}
+
+ ?>
