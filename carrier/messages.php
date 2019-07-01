@@ -89,8 +89,12 @@
               Messages
             </a>
             <a href="#">
-              <i data-feather="user"></i>
-              Pick up
+              <i data-feather="package"></i>
+              My packages
+            </a>
+            <a href="#">
+              <i data-feather="headphones"></i>
+              Support
             </a>
             <a href="#">
               <i data-feather="power"></i>

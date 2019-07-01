@@ -161,8 +161,10 @@
 
               <div class='row'>
                 <div class='col-3 col-md-3 col-sm-12'>
-                  <p class='name-prefix'>
-                    echo substr('Hello world',0,5).
+                  <p class='avatar'>
+                    <?php
+                      echo substr('Hello world',0,5)
+                     ?>
                   </p>
                 </div>
                 <div class='col-9 col-md-9 col-sm-12'>
