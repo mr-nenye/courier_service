@@ -1863,9 +1863,10 @@ article.card .infos .details {
 .panel-user .content {
   width: calc(100% - 40px - 1rem);
   position: relative;
+  margin-top: 10px;
 }
 .panel-user .content h4 {
-  font-size: 0.9375rem;
+  font-size: 1.2575rem;
   color: #8A92A7;
   margin-bottom: 0.55rem;
   font-weight: 500;
@@ -1907,7 +1908,7 @@ article.card .infos .details {
   display: table;
   max-width: 400px;
   border-radius: 0 0.5rem 0.5rem 0.5rem;
-  font-size: 0.975rem;
+  font-size: 1.175rem;
   padding: 0.75rem 1.125rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   margin-bottom: 0.75rem;
@@ -1943,7 +1944,7 @@ article.card .infos .details {
 }
 
 .message-content .message .txt.file .infos {
-	font-size: 0.75rem;
+	font-size: 1.175rem;
 	min-height: 2rem;
 }
 
@@ -1973,7 +1974,7 @@ article.card .infos .details {
 
 .message-content .message .date {
 	color: #A9A9B2;
-	font-size: 0.75rem;
+	font-size: 1.075rem;
 	margin-bottom: 1rem;
 	margin-left: 2.875rem;
 }
@@ -2161,4 +2162,14 @@ article.card .infos .details {
 .content-box--header span {
   font-size: 12px;
   margin: 5px 0 0 15px;
+}
+.avatar {
+  background-color: #BDC5D0;
+  width: 45px;
+  min-width: 32px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  position: relative;
+  text-align: center;
 }
