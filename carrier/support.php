@@ -115,7 +115,7 @@
               <a href="#"> <i data-feather='user'></i> Profile </a>
               <hr>
               <div class="separator"></div>
-              <a href="functions/logout"> <i data-feather="lock"></i> Sign out </a>
+              <a href="#"> <i data-feather="lock"></i> Sign out </a>
             </div>
           </div>
           <div class="menulist">
@@ -123,7 +123,7 @@
               <i data-feather="home"></i>
               Dashboard
             </a>
-            <a href="messages" class="active">
+            <a href="messages">
               <i data-feather="message-square"></i>
               Messages
             </a>
@@ -131,7 +131,7 @@
               <i data-feather="package"></i>
               My packages
             </a>
-            <a href="support">
+            <a href="support" class="active">
               <i data-feather="headphones"></i>
               Support
             </a>
@@ -139,46 +139,26 @@
 
         </div>
         <div class="content-section">
-          <div class="container-lg">
-            <div class="row">
-              <div class="col-5 col-md-5 col-sm-12">
-                <div class="page-title d-flex justify-content-between">
-                  <p class="page-title"> All Messages </p>
-                  <div class="btn-sm --btn-primary icon">
-                    <i data-feather="edit-3"></i>
-                  </div>
-                </div>
-                <?php
-                  $getChats = "SELECT *, (SELECT name FROM users WHERE userid = receiver ) as msgGeta FROM chats WHERE sender = $userId GROUP BY receiver ORDER BY chatId DESC ";
-                  $runChats = mysqli_query($conn, $getChats);
+          <div class="emai-l">
+            <div class="email-listing">
+              <?php
+                $getTickets = "SELECT * FROM tickets WHERE ticketemail = '$email' ORDER BY ticketId DESC";
+                $runQuery = mysqli_query($conn, $getTickets);
 
-                  if (mysqli_num_rows($runChats) > 0) {
-                    while($row = mysqli_fetch_array($runChats)) {
-                      echo "
-                      <div class='panel msg-panel' id=".$row['receiver']." data-sender-id=".$row['sender'].">
+                if (mysqli_num_rows($runQuery) > 0) {
+                  // code...
+                  while($row = mysqli_fetch_array($runQuery)) {
+                    echo "
+                      <div class='panel'>
                         <div class='panel-body'>
                           <div class='panel-user'>
-                            <div class='avatar'>
-                              <span>
-                            ";?>
-                            <?php
-                            $words = explode(" ", $row['msgGeta']);
-                            $acronym = "";
-
-                            foreach ($words as $w) {
-                              $acronym .= $w[0];
-                            }
-
-                            echo $acronym;
-                             ?>
-                             <?php
-                            echo"
-                              </span>
-                            </div>
                             <div class='content'>
-                              <h4> ".$row['msgGeta']." </h4>
+                              <h4> ".$row['subject']." </h4>
+                              <div class='time'>
+                                <b>  </b>
+                              </div>
                               <div class='date'>
-                                3 days ago
+                                ".$row['dateCreated']."
                               </div>
                               <div class='text'>
                                 ".$row['message']."
@@ -186,35 +166,25 @@
                             </div>
                           </div>
                         </div>
-                      </div> <br />
-                      ";
-                    }
-                  }else {
-                    // code...
-                    echo "
-                    <div class='empty-state'>
-                      <div>
-                        <div class='col-7 col-md-7 col-sm-12 --center'>
-                          <img src='assets/img/no-msg.svg' />
-                        </div>
-                        <div class='col-5 col-md-5 col-sm-12 --center'>
-                          <h5> No file found </h5>
-                          <span> Click on the <b> Create New Delivery </b> buttno to start  </span>
-                        </div>
                       </div>
-                    </div>
                     ";
                   }
-                ?>
+                }
 
-              </div>
-              <div class="col-7 col-md-7 col-sm-12">
-                <Form  id='chatForm'>
-                  <div id="chat_view">
-                    <!-- display chat histpry here... -->
+              ?>
+            </div>
+            <div class="mail-view">
+
+              <div class="empty-state --center">
+                <div class="row">
+                  <div class="col-12">
+                    <i data-feather="inbox"></i>
+                    <h5> no ticket to preview yet </h5>
+                    <a class="cd-popup-trigger"> click here to get started </a>
                   </div>
-                </fomr>
+                </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -222,8 +192,98 @@
 
     </div>
 
+    <!-- popup -->
+
+    <div class="cd-popup" role="alert">
+      <div class="cd-popup-container cd-popup-container-sm">
+        <form class="" action="" method="post" id="ticketform">
+          <span class="cd-popup-title"> Create a Ticket </span>
+
+          <div class="cd-popup-body">
+            <div class="cd-content">
+              <div class="row">
+                <div class="col-12">
+                  <label for="" class="label "> Subject </label>
+                  <input type="text" class="txt-input subject" placeholder="enter subject to your message" name="subject">
+                  <small style="text-align: right; color: red" class="error-subject"></small>
+                </div>
+                <div class="col-12">
+                  <label for="" class="label "> Message </label>
+                  <textarea name="msg" class="txt-textarea msg" placeholder="enter your message" ></textarea>
+                  <small style="text-align: right; color: red" class="error-msg"></small>
+                </div>
+                <div class="col-6 col-md-6 col-sm-12">
+                  <input type="hidden" class="userId" value="<?php echo $userId; ?>"  name="userId">
+                  <input type="hidden" class="userPhone" value="<?php echo $phone; ?>" name="userPhone"/>
+                  <input type="hidden" class="userEmail" value="<?php echo $email; ?>" name="userEmail"/>
+                  <input type="hidden" class="userName" value="<?php echo $name; ?>" name="userName"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cd-buttons">
+            <span class="btn --btn-flat close"> close</span>
+            <button type="submit" name="button" class="btn --btn-primary" onclick="updateDiv()">Create Ticket </button>
+          </div>
+
+          <a href="#0" class="cd-popup-close img-replace"></a>
+        </form>
+
+      </div> <!-- cd-popup-container -->
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
+      $("#ticketform").on("submit", function(e) {
+        // e.preventDefault();
+        $('.error-subject').html('');
+        $('.error-msg').html('');
+        $('#message').html('');
+
+        var subject = $(".subject").val();
+        var msg = $(".msg").val();
+        var userPhone = $(".userPhone").val();
+        var userEmail = $(".userEmail").val();
+        var userName = $(".userName").val();
+        var userId = $(".userId").val();
+
+        if($(".subject").val()==""){
+          $(".error-subject").html("Please enter the subject.");
+          $(".error-subject").css("color", "red");
+          $(".subject").focus();
+        } else if ($(".msg").val() == "") {
+          $(".error-msg").html("Please enter your message.");
+          $(".error-msg").css("color", "red");
+          $(".msg").focus();
+        } else {
+          $.ajax({
+            type: "POST",
+            url:"functions/createTicket.php",
+            data: {
+              "subject":subject,
+              "msg":msg,
+              "userPhone":userPhone,
+              "userEmail":userEmail,
+              "userName":userName,
+              "userId":userId
+            },
+            success:function(result){
+              alert(result);
+             if(result==0){
+               //alert("invalid");
+               $("#message").html("An error occured. Item nor added");
+               $("#message").css("color", "red");
+             } else{
+               $("#message").html("Item added Successfully");
+               $("#message").css("color", "green");
+               $('.cd-popup').removeClass('is-visible');
+              }
+            }
+          })
+        }
+        e.preventDefault();
+      })
+
       jQuery(document).ready(function($){
       	//open popup
       	$('.cd-popup-trigger').on('click', function(event){
@@ -262,17 +322,17 @@
         $('.error-quantity').html('');
         $('.error-start-price').html('');
 
-        let itemname = $(".itemname").val();
-        let category = $(".category").val();
-        let fromaddress = $(".fromaddress").val();
-        let fromstate = $(".fromstate").val();
-        let receivername = $(".receivername").val();
-        let receiverphone = $(".receiverphone").val();
-        let toaddress = $(".toaddress").val();
-        let tostate = $(".tostate").val();
-        let quantity = $(".quantity").val();
-        let startprice = $(".startprice").val();
-        let userId = $(".userId").val();
+        var itemname = $(".itemname").val();
+        var category = $(".category").val();
+        var fromaddress = $(".fromaddress").val();
+        var fromstate = $(".fromstate").val();
+        var receivername = $(".receivername").val();
+        var receiverphone = $(".receiverphone").val();
+        var toaddress = $(".toaddress").val();
+        var tostate = $(".tostate").val();
+        var quantity = $(".quantity").val();
+        var startprice = $(".startprice").val();
+        var userId = $(".userId").val();
 
         if($(".itemname").val()==""){
           $(".error-name").html("Please enter item name.");
@@ -311,18 +371,16 @@
         e.preventDefault();
       })
 
-      $(document).on('click', '.msg-panel', function(){
+      $(document).on('click', '.cd-popup-trigger', function(){
         //$('#dataModal').modal();
-        let receiver_id = $(this).attr("id");
-        let sender_id = $(this).attr("data-sender-id");
-
+        var item_id = $(this).attr("id");
         $.ajax({
-         url:"functions/chatHistory.php",
+         url:"functions/select.php",
          method:"POST",
-         data:{receiver_id:receiver_id, sender_id:sender_id},
+         data:{item_id:item_id},
          success:function(data){
-          $('#chat_view').html(data);
-          $('.chat-panel').css('visibility', 'visible');
+          $('#item_detail').html(data);
+          $('.cd-popup').addClass('is-visible');
          }
         });
       });
@@ -331,9 +389,9 @@
         // e.preventDefault();
         $('.error-oppoBid').html('');
 
-        let oppoBid = $(".oppoBid").val();
-        let item_id = $(".item_id").val();
-        let userId = $(".userId").val();
+        var oppoBid = $(".oppoBid").val();
+        var item_id = $(".item_id").val();
+        var userId = $(".userId").val();
 
         if($(".oppoBid").val()==""){
           $(".error-oppoBid").html("Enter your countr bid.");
@@ -381,45 +439,12 @@
         })
       })
 
+      updateDiv = () => {
+        $( ".email-listing" ).load(window.location.href + " .email-listing" );
+      }
       toggleDropMenu = () => {
         $(".dropmenu").toggleClass("active");
       }
-
-
-        $('#chatForm').on("submit", function(e) {
-          let myMsg = $(".myMsg").val();
-          let sender = $(".sender").val();
-          let receiver = $(".receiver").val();
-
-          $("<div class='message you'><div class=''><div class='txt'>"+myMsg+"</div></div><div class='date'>now</div></div>").insertBefore('.msg_insert')
-          $(".message-content").scrollTop($(".message-content")[0].scrollHeight);
-
-          if($(".myMsg").val()=="") {
-
-          }else {
-            $.ajax({
-              type: "POST",
-              url:"functions/sendChat.php",
-              data: {
-                "myMsg":myMsg,
-                "sender":sender,
-                "receiver":receiver
-              },
-              success:function(result){
-               if(result==0){
-                 $("#message").html("An error occured. Item nor added");
-                 $("#message").css("color", "red");
-               } else{
-                 // let myMsg = $(this).val();
-                 // $('.msg-form').val() === "";
-                 // $("<div class='message you'><div class=''><div class='txt'>"+myMsg+"</div></div><div class='date'>4 days ago</div></div>").insertBefore('.msg_insert');
-                }
-              }
-            })
-          }
-
-          e.preventDefault();
-        })
     </script>
     <script>
       feather.replace()

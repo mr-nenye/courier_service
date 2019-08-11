@@ -53,7 +53,7 @@
         </form>
 
         <div class="--center">
-          <p> Don't have an account? <a href="register.html"> create one now </a> </p>
+          <p> Don't have an account? <a href="register"> create one now </a> </p>
         </div>
 
       </div>

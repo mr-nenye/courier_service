@@ -2,8 +2,11 @@
   require 'functions/dbcon.php';
 
   session_start();
-
+  if (!isset($_SESSION['id'])) {
+    header('location: login');
+  }
   $userId = $_SESSION['id'];
+
 
   $getUserDetails = "SELECT * FROM users WHERE userId = '$userId'";
   $run = mysqli_query($conn, $getUserDetails);
@@ -33,21 +36,32 @@
 
     <div class="">
       <!-- navbar -->
-      <nav id="navbar" class="--navbar-fixed">
+      <!-- <nav id="navbar" class="--navbar-fixed">
           <div class="nav-wrapper">
-              <!-- Navbar Logo -->
               <div class="logo">
-                  <!-- Logo Placeholder for Inlustration -->
                   <a href="#home">
                     <img src="assets/img/logo.png" width="60" alt="">
                   </a>
               </div>
-
-              <!-- Navbar Links -->
               <ul id="menu">
-                  <li><a href="services.html"> <i data-feather="message-square"></i> <span> 3 </span> </a></li>
+                  <li>
+                    <a href="services.html"> <i data-feather="message-square"></i>
+                      <?php
+                        $sql="SELECT * FROM chats WHERE sender = $userId AND readStatus = 0";
+
+                        if ($result=mysqli_query($conn,$sql)) {
+                          $rowcount=mysqli_num_rows($result);
+                          if ($rowcount === 0) {
+                            echo "";
+                          }elseif ($rowcount > 0) {
+                            echo "<span>$rowcount</span>";
+                          }
+                        }
+
+                       ?>
+                    </a>
+                  </li>
                   <li><a href="about.html"> <i data-feather="bell"></i> <span> 1 </span> </a></li>
-                  <!-- <li><a href="contact.html"> <i data-feather="user"></i> <?php echo $name; ?> </a></li> -->
                   <li>
                     <div class="user-info">
                       <div class="avatar">
@@ -60,7 +74,7 @@
                   </li>
               </ul>
           </div>
-      </nav>
+      </nav> -->
       <!-- Menu Icon -->
       <div class="menuIcon">
           <span class="icon icon-bars"></span>
@@ -78,9 +92,34 @@
 
       <div class="main-section">
         <div class="sidemenu">
+          <div class="user-info" onclick="toggleDropMenu()">
+            <div class="avatar">
+              <!-- <i data-feather="user"></i> -->
+              <p>
+                <?php
+                $words = explode(" ", $name);
+                $acronym = "";
 
+                foreach ($words as $w) {
+                  $acronym .= $w[0];
+                }
+
+                echo $acronym;
+                 ?>
+              </p>
+            </div>
+            <div class="name">
+              <?php echo $name; ?>
+            </div>
+            <div class="dropmenu">
+              <a href="#"> <i data-feather='user'></i> Profile </a>
+              <hr>
+              <div class="separator"></div>
+              <a href="functions/logout"> <i data-feather="lock"></i> Sign out </a>
+            </div>
+          </div>
           <div class="menulist">
-            <a href="dashboard">
+            <a href="dashboard" class="active">
               <i data-feather="home"></i>
               Dashboard
             </a>
@@ -88,17 +127,13 @@
               <i data-feather="message-square"></i>
               Messages
             </a>
-            <a href="#">
+            <a href="mypackage">
               <i data-feather="package"></i>
               My packages
             </a>
-            <a href="#">
+            <a href="support">
               <i data-feather="headphones"></i>
               Support
-            </a>
-            <a href="#">
-              <i data-feather="power"></i>
-              Pick up
             </a>
           </div>
 
@@ -109,9 +144,13 @@
             <?php if($role === 'commissioner') { ?>
 
             <div class="row">
-              <div class="col-4 col-md-4 col-sm-12">
+              <div class="col-12">
+                <p class="page-title"> Overview </p>
+              </div>
+              <div class="col-3 col-md-3 col-sm-12">
                 <div class="stat-card">
                   <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
+                  <i class="stat-card-icon" data-feather="upload"></i>
                   <p class="stat-by-number">
                     <?php
 
@@ -128,31 +167,16 @@
                     ?>
                    </p>
                    <small class="stat-title"> Total number of upload </small>
-                   <span class="sparkline">
-                    <span class="index"><span class="count" style="height: 27%;">(60,</span> </span>
-                    <span class="index"><span class="count" style="height: 97%;">220,</span> </span>
-                    <span class="index"><span class="count" style="height: 62%;">140,</span> </span>
-                    <span class="index"><span class="count" style="height: 35%;">80,</span> </span>
-                    <span class="index"><span class="count" style="height: 49%;">110,</span> </span>
-                    <span class="index"><span class="count" style="height: 40%;">90,</span> </span>
-                    <span class="index"><span class="count" style="height: 80%;">180,</span> </span>
-                    <span class="index"><span class="count" style="height: 62%;">140,</span> </span>
-                    <span class="index"><span class="count" style="height: 53%;">120,</span> </span>
-                    <span class="index"><span class="count" style="height: 71%;">160,</span> </span>
-                    <span class="index"><span class="count" style="height: 78%;">175,</span> </span>
-                    <span class="index"><span class="count" style="height: 100%;">225,</span> </span>
-                    <span class="index"><span class="count" style="height: 78%;">175,</span> </span>
-                    <span class="index"><span class="count" style="height: 56%;">125)</span> </span>
-                  </span>
                 </div>
               </div>
-              <div class="col-4 col-md-4 col-sm-12">
+              <div class="col-3 col-md-3 col-sm-12">
                 <div class="stat-card">
                   <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
+                  <i class="stat-card-icon" data-feather="file-text"></i>
                   <p class="stat-by-number">
                     <?php
 
-                      $sql="SELECT * FROM biditem WHERE sellerId = $userId";
+                      $sql="SELECT * FROM tickets WHERE ticketholderId = $userId";
 
                       if ($result=mysqli_query($conn,$sql)) {
                         // Return the number of rows in result set
@@ -164,10 +188,10 @@
 
                     ?>
                    </p>
-                   <small class="stat-title"> Total number of Bid recieved </small>
+                   <small class="stat-title"> Total number of Ticket opened </small>
                 </div>
               </div>
-              <div class="col-4 col-md-4 col-sm-12">
+              <div class="col-3 col-md-3 col-sm-12">
                 <div class="stat-card">
                   <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
                   <p class="stat-by-number">
@@ -191,337 +215,132 @@
             </div>
 
             <!-- table display -->
-            <div class="limiter">
-              <div class="table-tops">
-                <span class="table-title"> Dasboard Overview </span>
-                <span class="btn --btn-primary cd-popup-trigger"> <i data-feather="file-plus"></i> create new delivery</span>
-                <span class="table-switch --list"> <i data-feather="list"></i> </span>
-                <span class="table-switch --grid"> <i data-feather="grid"></i> </span>
-              </div>
-          		<div class="container-table100">
-          			<div class="wrap-table100">
-          				<div class="table100">
-          					<table class="list-view">
-          						<thead>
-          							<tr class="table100-head">
-          								<th class="column1">Date</th>
-          								<th class="column2">Order ID</th>
-          								<th class="column3">Name</th>
-          								<th class="column4">Price</th>
-          								<th class="column5">Bids</th>
-          								<th class="column6">  </th>
-          							</tr>
-          						</thead>
-          						<tbody>
-                        <?php
-                          $getMyStuffs = "SELECT DISTINCT a.*, (SELECT COUNT(*) FROM bidreport WHERE productid = a.itemId ) AS total FROM biditem a WHERE a.sellerId = $userId ORDER BY date_made DESC";
-                          $run = mysqli_query($conn, $getMyStuffs);
+            <div class="">
 
-                          if (mysqli_num_rows($run) > 0) {
-                            // code...
-                            while($row = mysqli_fetch_array($run)) {
-                              echo "<tr>
-              									<td class='column1'>".$row['date_made']."</td>
-              									<td class='column2'>200398</td>
-              									<td class='column3'>".$row['name']."</td>
-              									<td class='column4'>".$row['startprice']."</td>
-              									<td class='column5'>".$row['total']."</td>
-              									<td class='column6'>
-                                  <a href='overview?q=".$row['itemId']."' class=''> Open </a> &nbsp;&nbsp;&nbsp;
-                                  <a href='offer?q=".$row['itemId']."' class='tbl-btn'> view bids </a>
-                                </td>
-              								</tr>";
-                            }
-                          } else {
-
-                            echo "<tr class='empty-state'>
-                                    <td colspan='6' class='--center'>
-                                      <div class='--pad-y-40'>
-                                        <p class='empty-state-icon'> <i class='lni-folder'></i> </p>
-                                        <p style='margin-top: -50px;'> Its lonely here, you have not added any item for transport </p>
-                                        <a href='' class='cd-popup-trigger'> click here to create an item </a>
-                                      </div>
-                                    </td>
-                                  </tr";
-
-                          }
-
-                         ?>
-
-          						</tbody>
-          					</table>
-
-                    <div class="card-view">
-                      <div class="row">
-                      <?php
-                        $getMyStuffs = "SELECT DISTINCT a.*, (SELECT COUNT(*) FROM bidreport WHERE productid = a.itemId ) AS total FROM biditem a WHERE a.sellerId = $userId ORDER BY date_made DESC";
-                        $run = mysqli_query($conn, $getMyStuffs);
-
-                        if (mysqli_num_rows($run) > 0) {
-                          // code...
-                          while($row = mysqli_fetch_array($run)) {
-                            echo "<div class='col-4 col-md-4 col-sm-12'>
-                              <div class='panel'>
-                                <div class='panel-header'>
-                                  somthing new
-                                </div>
-                                <div class='panel-body job'>
-                                  <span class='badge badge-success'> ".$row['startprice']."  </span>
-                                  <h4> ".$row['name']." </h4>
-                                  <ul class='tags'>
-                                    <li> 3 new messages </li>
-                                    <li> ".$row['total']." bids </li>
-                                  </ul>
-                                  <span class='date'> <i data-feather='calendar'></i> ".$row['date_made']." </span>
-                                  <a href='' class='badge badge-link'> ".$row['total']." Bids </a>
-                                </div>
-                              </div>
-                            </div>";
-                          }
-                        }
-                      ?>
-                    </div>
-                    </div>
-                    <div class="pagination p2">
-                     <ul>
-                       <a href="#"><li>1</li></a>
-                       <a class="is-active" href="#"><li>2</li></a>
-                       <a href="#"><li>3</li></a>
-                       <a href="#"><li>4</li></a>
-                       <a href="#"><li>5</li></a>
-                       <a href="#"><li>6</li></a>
-                     </ul>
-                   </div>
-          				</div>
-          			</div>
-          		</div>
           	</div>
 
-
-            <!-- popup -->
-
-            <div class="cd-popup" role="alert">
-            	<div class="cd-popup-container">
-                <form class="" action="" method="post" id="prodtform">
-                  <span class="cd-popup-title"> Modal Title </span>
-
-              		<div class="cd-popup-body">
-                    <div class="cd-content">
-                      <div class="row">
-                        <div class="col-8 col-md-8 col-sm-12">
-                          <label for="" class="label "> Item name </label>
-                          <input type="text" class="txt-input itemname" placeholder="enter the name of the item" name="itemname">
-                          <small style="text-align: right; color: red" class="error-name"></small>
-                        </div>
-                        <div class="col-4 col-md-6 col-sm-12">
-                          <label for="" class="label "> Category </label>
-                          <select class="txt-input category" name="category">
-                            <?php
-
-                              $getCate = "SELECT * FROM category";
-                              $run = mysqli_query($conn, $getCate);
-
-                              if (mysqli_num_rows($run) > 0) {
-                                // code...
-                                while ($row = mysqli_fetch_array($run)) {
-                                  // code...
-                                  echo "<option value=".$row['categoryid']."> ".$row['categoryname']." </option>";
-                                }
-                              }
-
-                             ?>
-                            <!-- <option value=""> Option 1 </option>
-                            <option value=""> Option 2 </option>
-                            <option value=""> Option 3 </option>
-                            <option value=""> Option 4 </option> -->
-                          </select>
-                          <small style="text-align: right; color: red" class="error-category"></small>
-                        </div>
-                        <div class="col-8 col-md-8 col-sm-12">
-                          <label for="" class="label "> Pickup address </label>
-                          <input type="text" class="txt-input fromaddress" placeholder="enter pickup address" name="fromaddress">
-                          <small style="text-align: right; color: red" class="error-from-address"></small>
-                        </div>
-                        <div class="col-4 col-md-4 col-sm-12">
-                          <label for="" class="label "> Pickup state </label>
-                          <select class="txt-input fromstate" name="fromstate">
-                            <option value="Abia"> Abia </option>
-                            <option value="Adamawa"> Adamawa </option>
-                            <option value="Akwa Ibom"> Akwa Ibom </option>
-                            <option value="Anambra"> Anambra </option>
-                            <option value="Bauchi"> Bauchi </option>
-                            <option value="Bayelsa"> Bayelsa </option>
-                            <option value="Benue"> Benue </option>
-                            <option value="Borno"> Borno </option>
-                            <option value="Cross River"> Cross River </option>
-                            <option value="Delta"> Delta </option>
-                            <option value="Ebonyi"> Ebonyi </option>
-                            <option value="Enugu"> Enugu </option>
-                            <option value="Edo"> Edo </option>
-                            <option value="Ekiti"> Ekiti </option>
-                            <option value="Abuja"> FCT Abuja </option>
-                            <option value="Gombe"> Gombe </option>
-                            <option value="Imo"> Imo </option>
-                            <option value="Jigawa"> Jigawa </option>
-                            <option value="Kaduna"> Kaduna </option>
-                            <option value="Kano"> Kano </option>
-                            <option value="Katsina"> Katsina </option>
-                            <option value="Kebbi"> Kebbi </option>
-                            <option value="Kogi"> Kogi </option>
-                            <option value="Kwara"> Kwara </option>
-                            <option value="Lagos"> Lagos </option>
-                            <option value="Nasarawa"> Nasarawa </option>
-                            <option value="Niger"> Niger </option>
-                            <option value="Ogun"> Ogun </option>
-                            <option value="Ondo"> Ondo </option>
-                            <option value="Osun"> Osun </option>
-                            <option value="Oyo"> Oyo </option>
-                            <option value="Plateau"> Plateau </option>
-                            <option value="Rivers"> Rivers </option>
-                            <option value="Sokoto"> Sokoto </option>
-                            <option value="Taraba"> Taraba </option>
-                            <option value="Yobe"> Yobe </option>
-                            <option value="Zamfara"> Zamfara </option>
-                          </select>
-                          <small style="text-align: right; color: red" class="error-from-state"></small>
-                        </div>
-                        <div class="col-6 col-md-6 col-sm-12">
-                          <label for="" class="label "> Recipient name </label>
-                          <input type="text" class="txt-input receivername" placeholder="enter recipient name" name="receivername">
-                          <small style="text-align: right; color: red" class="error-recv-name"></small>
-                        </div>
-                        <div class="col-6 col-md-6 col-sm-12">
-                          <label for="" class="label "> Recipient phone number </label>
-                          <input type="text" class="txt-input receiverphone" placeholder="enter recipient phone number" name="receiverphone">
-                          <small style="text-align: right; color: red" class="error-recv-phone"></small>
-                        </div>
-                        <div class="col-8 col-md-8 col-sm-12">
-                          <label for="" class="label "> Destination address </label>
-                          <input type="text" class="txt-input toaddress" placeholder="enter destination address" name="toaddress">
-                          <small style="text-align: right; color: red" class="error-to-address"></small>
-                        </div>
-                        <div class="col-4 col-md-4 col-sm-12">
-                          <label for="" class="label "> Destination state </label>
-                          <select class="txt-input tostate" name="tostate">
-                            <option value="Abia"> Abia </option>
-                            <option value="Adamawa"> Adamawa </option>
-                            <option value="Akwa Ibom"> Akwa Ibom </option>
-                            <option value="Anambra"> Anambra </option>
-                            <option value="Bauchi"> Bauchi </option>
-                            <option value="Bayelsa"> Bayelsa </option>
-                            <option value="Benue"> Benue </option>
-                            <option value="Borno"> Borno </option>
-                            <option value="Cross River"> Cross River </option>
-                            <option value="Delta"> Delta </option>
-                            <option value="Ebonyi"> Ebonyi </option>
-                            <option value="Enugu"> Enugu </option>
-                            <option value="Edo"> Edo </option>
-                            <option value="Ekiti"> Ekiti </option>
-                            <option value="Abuja"> FCT Abuja </option>
-                            <option value="Gombe"> Gombe </option>
-                            <option value="Imo"> Imo </option>
-                            <option value="Jigawa"> Jigawa </option>
-                            <option value="Kaduna"> Kaduna </option>
-                            <option value="Kano"> Kano </option>
-                            <option value="Katsina"> Katsina </option>
-                            <option value="Kebbi"> Kebbi </option>
-                            <option value="Kogi"> Kogi </option>
-                            <option value="Kwara"> Kwara </option>
-                            <option value="Lagos"> Lagos </option>
-                            <option value="Nasarawa"> Nasarawa </option>
-                            <option value="Niger"> Niger </option>
-                            <option value="Ogun"> Ogun </option>
-                            <option value="Ondo"> Ondo </option>
-                            <option value="Osun"> Osun </option>
-                            <option value="Oyo"> Oyo </option>
-                            <option value="Plateau"> Plateau </option>
-                            <option value="Rivers"> Rivers </option>
-                            <option value="Sokoto"> Sokoto </option>
-                            <option value="Taraba"> Taraba </option>
-                            <option value="Yobe"> Yobe </option>
-                            <option value="Zamfara"> Zamfara </option>
-                          </select>
-                          <small style="text-align: right; color: red" class="error-to-state"></small>
-                        </div>
-                        <div class="col-6 col-md-6 col-sm-12">
-                          <label for="" class="label "> Quantity </label>
-                          <input type="number" class="txt-input quantity" placeholder="enter quantity" name="quantity">
-                          <small style="text-align: right; color: red" class="error-quantity"></small>
-                        </div>
-                        <div class="col-6 col-md-6 col-sm-12">
-                          <label for="" class="label "> Starting price </label>
-                          <input type="text" class="txt-input startprice" placeholder="enter your base price" name="startprice">
-                          <small style="text-align: right; color: red" class="error-start-price"></small>
-                        </div>
-                        <div class="col-6 col-md-6 col-sm-12">
-                          <input type="hidden" class="txt-input userId"  placeholder="enter your base price" value="<?php echo $userId; ?>"  name="userId">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="cd-buttons">
-                    <span class="btn --btn-flat close"> close</span>
-                    <button type="submit" name="button" class="btn --btn-primary"> place order </button>
-                  </div>
-
-              		<a href="#0" class="cd-popup-close img-replace"></a>
-                </form>
-
-            	</div> <!-- cd-popup-container -->
-            </div> <!-- cd-popup -->
 
           <?php  } elseif ($role === 'carrier') {?>
 
             <div class="row">
 
-              <?php
-                $getPublicItems = "SELECT * FROM biditem";
-                $runget = mysqli_query($conn, $getPublicItems);
+              <div class="col-12">
+                <p class="page-title"> Overview </p>
+              </div>
 
-                if (mysqli_num_rows($runget) > 0) {
-                  // code...
-                  while($rec = mysqli_fetch_array($runget)) {
+              <div class="limiter">
+                <div class="table-tops">
+                  <span class="table-title"> My Parcel </span>
+                  <span class="table-switch --list"> <i data-feather="list"></i> </span>
+                  <span class="table-switch --grid"> <i data-feather="grid"></i> </span>
+                </div>
+            		<div class="container-table100">
+            			<div class="wrap-table100">
+            				<div class="table100">
 
-                    echo '
-                    <div class="col-4 col-md-4 col-sm-12">
-                      <div class="box-of-stuff">
-                        <span class="box-name"> '.$rec["name"].' </span>
+                          <?php
+                            // $getMyStuffs = "SELECT a.*, (SELECT * FROM biditem WHERE itemId = a.productid ) AS total FROM bidreport a WHERE a.bidder = $userId AND status = '1' ORDER BY biddatetime DESC";
+                            $getMyStuffs = "SELECT *  FROM bidreport
+                            INNER JOIN biditem ON bidreport.productid = biditem.itemId
+                            INNER JOIN users ON biditem.sellerId = users.userid
+                            WHERE bidder = $userId AND status = '1'";
+                            $run = mysqli_query($conn, $getMyStuffs);
 
-                        <!-- <p class="desp"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p> -->
+                            if (mysqli_num_rows($run) > 0) {
+                              // code...
+                              echo "<table class='list-view'>
+                    						<thead>
+                    							<tr class='table100-head'>
+                    								<th class='column1'>Date</th>
+                    								<th class='column2'>Order ID</th>
+                    								<th class='column3'>Owners Name</th>
+                    								<th class='column4'>Start Price</th>
+                    								<th class='column5'>My Bid</th>
+                                    <th class='column5'>Origin</th>
+                                    <th class='column5'>Destination</th>
+                    								<th class='column6'>  </th>
+                    							</tr>
+                    						</thead>
+                    						<tbody>";
+                              while($row = mysqli_fetch_array($run)) {
+                                echo "<tr>
+                									<td class='column1'>".$row['date_made']."</td>
+                									<td class='column2'>200398</td>
+                									<td class='column3'>".$row['name']."</td>
+                									<td class='column4'>".$row['startprice']."</td>
+                									<td class='column5'>".$row['bidamount']."</td>
+                									<td class='column5'>".$row['fromstate']."</td>
+                									<td class='column5'>".$row['tostate']."</td>
+                									<td class='column6'>
+                                    <a href='overview?q=".$row['itemId']."' class=''> Open </a> &nbsp;&nbsp;&nbsp;
+                                  </td>
+                								</tr>";
+                              }
+                              echo "</tbody></table>";
+                            } else {
 
+                              echo "
+                              <div class='empty-state'>
+                                <div class='--center'>
+                                  <div class='col-12 --center'>
+                                    <img src='assets/img/empty-state.svg' />
+                                  </div>
+                                  <div class='col-12 --center'>
+                                    <h3> No file found </h3>
+                                    <span> Click on the <b> Create New Delivery </b> buttno to start  </span>
+                                  </div>
+                                </div>
+                              </div>
+                              ";
+
+                            }
+
+                           ?>
+
+
+                      <div class="card-view">
                         <div class="row">
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Pick up State </label>
-                            <span class="desp"> '.$rec["fromstate"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Pick up Address </label>
-                            <span class="desp"> '.$rec["fromaddress"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Delivery State </label>
-                            <span class="desp"> '.$rec["tostate"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Delivery Address </label>
-                            <span class="desp"> '.$rec["toaddress"].' </span>
-                          </div>
-                          <div class="col-12 col-md-12 col-sm-12">
-                            <label for="" class="label "> Starting Price </label>
-                            <span class="desp"> '.$rec["startprice"].' </span>
-                          </div>
-                        </div>
+                        <?php
+                          $getMyStuffs = "SELECT a.*, (SELECT * FROM biditem WHERE itemId = a.productid ) AS total FROM bidreport a WHERE a.bidder = $userId AND status = '1' ORDER BY biddatetime DESC";
+                          $run = mysqli_query($conn, $getMyStuffs);
 
-                        <div class="view-bid-btn">
-                          <button href="" class="btn --btn-primary cd-popup-trigger" id="'.$rec["itemId"].'"> Place Bid </button>
-                        </div>
+                          if (mysqli_num_rows($run) > 0) {
+                            // code...
+                            while($row = mysqli_fetch_array($run)) {
+                              echo "<div class='col-4 col-md-4 col-sm-12'>
+                                <div class='panel'>
+                                  <div class='panel-body job'>
+                                    <span class='badge badge-success'> ".$row['startprice']."  </span>
+                                    <h4> ".$row['name']." </h4>
+                                    <ul class='tags'>
+                                      <li> 3 new messages </li>
+                                      <li> ".$row['total']." bids </li>
+                                    </ul>
+                                    <span class='date'> <i data-feather='calendar'></i> ".$row['date_made']." </span>
+                                    <a href='' class='badge badge-link'> ".$row['total']." Bids </a>
+                                  </div>
+                                </div>
+                              </div>";
+                            }
+                          }
+                        ?>
                       </div>
-                    </div>
-                    ';
+                      </div>
+                      <div class="pagination p2">
+                       <ul>
+                         <a href="#"><li>1</li></a>
+                         <a class="is-active" href="#"><li>2</li></a>
+                         <a href="#"><li>3</li></a>
+                         <a href="#"><li>4</li></a>
+                         <a href="#"><li>5</li></a>
+                         <a href="#"><li>6</li></a>
+                       </ul>
+                     </div>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
 
-                  }
-                }
-               ?>
 
                <!-- popup -->
 
@@ -716,7 +535,12 @@
         })
       })
 
-
+      updateDiv = () => {
+        $( ".table100" ).load(window.location.href + " .table100" );
+      }
+      toggleDropMenu = () => {
+        $(".dropmenu").toggleClass("active");
+      }
     </script>
     <script>
       feather.replace()
