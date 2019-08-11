@@ -4,9 +4,75 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title> TABS </title>
-    <link rel="stylesheet" href="assets/css/custom.css">
-    <link rel="stylesheet" href="assets/css/flexgrid.css">
+    <!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
+    <link rel="stylesheet" href="../assets/css/flexgrid.css">
     <link rel="stylesheet" href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css">
+
+    <style>
+
+    .card {
+      padding-top: 5px;
+      position: relative;
+      margin: auto;
+      width: 90%;
+      border-radius: 3px;
+      box-sizing: border-box;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, .2);
+    }
+    .card .card-container {
+      margin: 15px auto;
+      width: 90%;
+    }
+    .card .card-container .title {
+      font-size: 16px;
+      font-weight: 500;
+      text-transform: capitalize;
+      font-family: 'poppins';
+      padding-bottom: 15px 0;
+    }
+    .card .card-container .commissioner {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+    }
+    .card .card-container .commissioner .avatar {
+      background-color: #BDC5D0;
+      width: 20px;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+      position: relative;
+      text-align: center;
+      line-height: 10px;
+    }
+    .card .card-container .commissioner .name span{
+      font-family: 'poppins';
+      font-size: 10px;
+    }
+    .card .card-container .commissioner .pill {
+      float: right;
+      color: #3B40E4;
+      background: #FFF;
+      border: 1px solid #3B40E4;
+      border-radius: 3px;
+      padding: 5px 10px;
+      text-align: right;
+      font-family: 'poppins';
+      font-size: 12px;
+      margin-left: 45%;
+    }
+    .card .actBtn {
+      width: 100%;
+      text-align: center;
+      padding: 15px;
+      background: #34D1BF;
+      box-sizing: border-box;
+      color: #FFF;
+      font-family: 'poppins';
+      font-size: 12px;
+    }
+    </style>
   </head>
   <body class="--bg-pattern">
 
@@ -41,6 +107,28 @@
         </div>
       </div>
 
+
+      <div class="row">
+        <div class="col-4 col-md-6 col-sm-12">
+          <div class="card">
+            <div class="card-container">
+              <p class="title"> card title</p>
+              <div class="commissioner">
+                <div class="avatar">
+
+                </div>
+                <div class="name">
+                  <span> Nweke Raphael </span>
+                </div>
+                <div class="pill">
+                  4 bid(s)
+                </div>
+              </div>
+            </div>
+            <div class="actBtn"> place bid </div>
+          </div>
+        </div>
+      </div>
 
 
 
@@ -132,3 +220,65 @@
 }
 
  ?>
+
+
+
+ <div class='message'>
+    <div class=''>
+      <div class='txt'>
+        we have a lot of mobile users so essentially need a mobile first design that will be responsive but designed for desktop as well.
+      </div>
+    </div>
+    <div class='date'>
+      4 days ago
+    </div>
+  </div>
+  <div class='message you'>
+    <div class=''>
+      <div class='txt'>
+        we have a lot of mobile users so essentially need a mobile first design that will be responsive but designed for desktop as well.
+      </div>
+    </div>
+    <div class='date'>
+      4 days ago
+    </div>
+  </div>
+
+  <div class='line-day'>
+    <span></span>
+    <span class='text'> Today </span>
+    <span></span>
+  </div>
+
+  <div class='message you'>
+    <div class=''>
+      <div class='txt'>
+        we have a lot of mobile users so essentially need a mobile first design that will be responsive but designed for desktop as well.
+      </div>
+    </div>
+    <div class='date'>
+      4 days ago
+    </div>
+  </div>
+  <div class='message'>
+    <div class=''>
+      <div class='txt file'>
+        <div class='title'>
+          New fire media
+        </div>
+        <div class='infos'>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        </div>
+        <div class='btn'>
+          Download
+        </div>
+
+      </div>
+    </div>
+    <div class='date'>
+      4 days ago
+    </div>
+
+  </div>
+
+  #3b40e4

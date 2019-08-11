@@ -94,13 +94,13 @@
               <i data-feather="package"></i>
               My packages
             </a>
-            <a href="#">
+            <a href="support">
               <i data-feather="headphones"></i>
               Support
             </a>
             <a href="#">
               <i data-feather="power"></i>
-              Pick up
+              Sign Out
             </a>
           </div>
 

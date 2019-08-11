@@ -16,12 +16,31 @@
   </head>
   <body class="--bg-pattern">
 
+    <div id="success-msg">
+      <div class="alert alert-success">
+        <div class="alert-container">
+          <button type="button" class="close-icon" data-dismiss="alert" aria-label="Close">
+                <span>clear</span>
+          </button>
+          <b class="alert-info">Success alert:</b> User successfully registered, go ahead and login
+        </div>
+      </div>
+    </div>
+
+    <div id="danger-msg">
+      <div class="alert alert-danger">
+        <div class="alert-container">
+          <button type="button" class="close-icon" data-dismiss="alert" aria-label="Close">
+                <span>clear</span>
+          </button>
+          <b class="alert-info">Danger alert:</b> Email already exist, Please try again
+        </div>
+      </div>
+    </div>
+
     <div class="container-sm">
       <div class="wrapper --marg-y-100">
         <p class="header-title"> <i class="lni-pencil-alt"></i> create your account </p>
-
-        <div id="message">
-        </div>
 
         <form class="" action="" method="post" id="regform">
           <div class="row">
@@ -50,19 +69,51 @@
             </div>
             <div class="col-12">
               <label for="" class="label font-oswald"> Role </label> <br>
-              <input type="radio" class="form-radio role" id="check-radio" name="role" value="commissioner"><label for="check-radio" class="medium"> commissioner </label>
-              <input type="radio" class="form-radio role" id="check-radio" name="role" value="carrier"><label for="check-radio" class="medium"> Carrier </label>
+              <input type="radio" class="form-radio role" id="check-radio-1" name="role" value="commissioner"><label for="check-radio-1" class="medium"> commissioner </label>
+              <input type="radio" class="form-radio role" id="check-radio-2" name="role" value="carrier"><label for="check-radio-2" class="medium"> Carrier </label>
               <small style="text-align: right; color: red" class="urole"></small>
             </div>
-            <!-- <div class="col-12">
-              <label for="" class="label font-oswald"> Courier Category </label> <br>
-              <input type="checkbox" class="form-checkbox" id="check-one"><label for="check-one" class="medium"> cate 1 </label>
-              <input type="checkbox" class="form-checkbox" id="check-two"><label for="check-two" class="medium"> cate 2 </label>
-              <input type="checkbox" class="form-checkbox" id="check-thirteen"><label for="check-three" class="medium"> cate 3 </label>
-              <input type="checkbox" class="form-checkbox" id="check-four"><label for="check-four" class="medium"> cate 4 </label>
-              <input type="checkbox" class="form-checkbox" id="check-five"><label for="check-five" class="medium"> cate 5 </label>
-              <input type="checkbox" class="form-checkbox" id="check-six"><label for="check-six" class="medium"> cate 6 </label>
-            </div> -->
+
+            <div class="col-12">
+              <label for="" class="label font-oswald"> Courier Category </label>
+            </div>
+            <div class="col-6 negMarginTop">
+               <br>
+              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-one" value="Vehicles and Boats"><label for="check-one" class="medium">
+                Vehicles and Boats
+              </label>
+            </div>
+            <div class="col-6 negMarginTop">
+              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-two" value="House hold items"><label for="check-two" class="medium">
+                 House hold items
+               </label>
+             </div>
+             <div class="col-6 negMarginTop">
+              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-thirteen" value="Moves"><label for="check-three" class="medium">
+                Moves
+              </label>
+            </div>
+            <div class="col-6 negMarginTop">
+              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-four" value="Heavy equipments"><label for="check-four" class="medium">
+                Heavy equipments
+              </label>
+            </div>
+            <div class="col-6 negMarginTop">
+              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-five" value="Freight"><label for="check-five" class="medium">
+                Freight
+              </label>
+            </div>
+            <div class="col-6 negMarginTop">
+              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-six" value="Live animals"><label for="check-six" class="medium">
+                Live animals
+              </label>
+            </div>
+            <div class="col-6 negMarginTop">
+              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-six" value="Frozen items"><label for="check-six" class="medium">
+                Frozen items
+              </label>
+            </div>
+            </div>
           </div>
 
           <div class="row --center">
@@ -73,7 +124,7 @@
         </form>
 
         <div class="--center">
-          <p> Already have an account? <a href="login.html"> login now </a> </p>
+          <p> Already have an account? <a href="login"> login now </a> </p>
         </div>
       </div>
     </div>
@@ -94,7 +145,8 @@
             var password=$(".password").val();
             var phone = $(".phone").val();
             var email = $('.email').val();
-            var role = $('.role').val();
+            var role = $("input[name='role']:checked").val();
+            // var radioValue = $("input[name='gender']:checked").val();
 
             if($(".name").val()==""){
                $(".uname").html("Please enter username.");
@@ -127,13 +179,10 @@
                 url:"functions/registerUser.php",
                 data:{"name":name,"password":password,"email":email,"phone":phone, "role":role},
                 success:function(result){
-                 if(result==0){
-                    $("#message").html("Email allready exists.");
-                     $("#message").css("color", "red");
-                    }
-                    else{
-                    $("#message").html("Successfully register");
-                    $("#message").css("color", "green");
+                if(result==0){
+                  $("#danger-msg").css("display", "block");
+                }else{
+                  $("#success-msg").css("display", "block");
                }
               }
 
