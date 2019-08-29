@@ -112,7 +112,7 @@
               <?php echo $name; ?>
             </div>
             <div class="dropmenu">
-              <a href="#"> <i data-feather='user'></i> Profile </a>
+              <a href="profile"> <i data-feather='user'></i> Profile </a>
               <hr>
               <div class="separator"></div>
               <a href="functions/logout"> <i data-feather="lock"></i> Sign out </a>
@@ -140,13 +140,31 @@
         </div>
         <div class="content-section">
           <div class="container-lg">
+
+            <div class="page__section">
+              <nav class="breadcrumb breadcrumb_type1" aria-label="Breadcrumb">
+                <ol class="breadcrumb__list r-list">
+                  <li class="breadcrumb__group">
+                    <a href="#0" class="breadcrumb__point r-link">Dashboard</a>
+                    <span class="breadcrumb__divider" aria-hidden="true">/</span>
+                  </li>
+                  <li class="breadcrumb__group">
+                    <span class="breadcrumb__point" aria-current="page">My messages</span>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
             <div class="row">
               <div class="col-5 col-md-5 col-sm-12">
                 <div class="page-title d-flex justify-content-between">
-                  <p class="page-title"> All Messages </p>
-                  <div class="btn-sm --btn-primary icon">
+                  <p class=""> All Messages </p>
+                  <span class="iconbtn round">
+                      <span class="icon"><i data-feather="edit"></i></span>
+                  </span>
+                  <!-- <div class="btn-sm --btn-primary icon">
                     <i data-feather="edit-3"></i>
-                  </div>
+                  </div> -->
                 </div>
                 <?php
                   $getChats = "SELECT *, (SELECT name FROM users WHERE userid = receiver ) as msgGeta FROM chats WHERE sender = $userId GROUP BY receiver ORDER BY chatId DESC ";

@@ -112,7 +112,7 @@
               <?php echo $name; ?>
             </div>
             <div class="dropmenu">
-              <a href="#"> <i data-feather='user'></i> Profile </a>
+              <a href="profile"> <i data-feather='user'></i> Profile </a>
               <hr>
               <div class="separator"></div>
               <a href="#"> <i data-feather="lock"></i> Sign out </a>

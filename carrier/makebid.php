@@ -126,10 +126,8 @@
         <div class="content-section">
           <div class="container-lg">
 
-            <?php if($role === 'commissioner') { ?>
-
               <div class="page__section">
-                <nav class="breadcrumb breadcrumb_type1" aria-label="Breadcrumb">
+                <nav class="breadcrumb breadcrumb_type1" aria-labell="Breadcrumb">
                   <ol class="breadcrumb__list r-list">
                     <li class="breadcrumb__group">
                       <a href="#0" class="breadcrumb__point r-link">My packages</a>
@@ -142,109 +140,88 @@
                 </nav>
               </div>
 
-              <p class="page-title"> My Offers </p>
-
-            <!-- table display -->
-            <div class="">
-              <input type="hidden" value="<?php echo $itemId ?>" name="itemId" class="itemId"/>
-              <div class="row" id="target">
-
-              </div>
-            </div>
-           </div>
-
-
-          <?php  } elseif ($role === 'carrier') {?>
-
-            <div class="row">
-
               <?php
-                $getPublicItems = "SELECT * FROM biditem";
-                $runget = mysqli_query($conn, $getPublicItems);
 
-                if (mysqli_num_rows($runget) > 0) {
-                  // code...
-                  while($rec = mysqli_fetch_array($runget)) {
+              $getJoinItem = "SELECT * FROM biditem
+                INNER JOIN users ON users.userid = biditem.sellerId
+                WHERE biditem.itemId = $itemId";
 
-                    echo '
-                    <div class="col-4 col-md-4 col-sm-12">
-                      <div class="box-of-stuff">
-                        <span class="box-name"> '.$rec["name"].' </span>
+              $runquery = mysqli_query($conn, $getJoinItem);
 
-                        <!-- <p class="desp"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p> -->
+              if (mysqli_num_rows($runquery) > 0) {
+                while($rec = mysqli_fetch_array($runquery)) {
 
-                        <div class="row">
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Pick up State </label>
-                            <span class="desp"> '.$rec["fromstate"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Pick up Address </label>
-                            <span class="desp"> '.$rec["fromaddress"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Delivery State </label>
-                            <span class="desp"> '.$rec["tostate"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Delivery Address </label>
-                            <span class="desp"> '.$rec["toaddress"].' </span>
-                          </div>
-                          <div class="col-12 col-md-12 col-sm-12">
-                            <label for="" class="label "> Starting Price </label>
-                            <span class="desp"> '.$rec["startprice"].' </span>
-                          </div>
-                          <form class="accptForm">
-                            <input type="hidden" value="'.$rec["itemId"].'" />
-                          </form>
-                        </div>
+                  echo '<p class="page-title">'.$rec["itemname"].' <small> #'.$rec["orderId"].' </small></p>
 
-                        <div class="view-bid-btn">
-                          <button href="" class="btn --btn-primary cd-popup-trigger" id="'.$rec["itemId"].'"> Place Bid </button>
-                        </div>
+                  <div class="row">
+                    <div class="col-4 col-md-4 col-sm-12 sectoninfo">
+                      <span class="secton-title"> Item Owner </span>
+                      <div>
+                        <label> NAME </label>
+                        <p>'.$rec["name"].'<p>
+                      </div>
+                      <div>
+                        <label> PHONE NUMBER </label>
+                        <p>'.$rec["phone"].'<p>
+                      </div>
+                      <div>
+                        <label> EMAIL ADDRESS </label>
+                        <p>'.$rec["email"].'<p>
                       </div>
                     </div>
-                    ';
+                    <div class="col-4 col-md-4 col-sm-12 sectoninfo">
+                      <span class="secton-title"> Delivery Info </span>
+                      <div>
+                        <label> PICK UP STATE </label>
+                        <p>'.$rec["fromstate"].'<p>
+                      </div>
+                      <div>
+                        <label> PICK UP ADDRESS </label>
+                        <p>'.$rec["fromaddress"].'<p>
+                      </div>
+                      <div>
+                        <label> DESTINATION STATE </label>
+                        <p>'.$rec["tostate"].'<p>
+                      </div>
+                      <div>
+                        <label> DESTINATION ADDRESS </label>
+                        <p>'.$rec["toaddress"].'<p>
+                      </div>
+                      <div>
+                        <label> RECEIVER NAME </label>
+                        <p>'.$rec["recievername"].'<p>
+                      </div>
+                      <div>
+                        <label> RECEIVER PHONE NUMBER </label>
+                        <p>'.$rec["recieverphone"].'<p>
+                      </div>
+                    </div>
+                    <div class="col-4 col-md-4 col-sm-12 sectoninfo">
+                      <span class="secton-title"> Pricing </span>
+                      <div>
+                        <label> STARTING PRICE </label>
+                        <p class="price">'.$rec["startprice"].'</p>
+                      </div>
+                      <div>
+                        <input type="text" class="txt-input search_input" placeholder="Search by item name OR item owner" name="search_input" id="search_input">
+                        <span href="makebid?q='.$rec["itemId"].'" class="actBtn iconbtn round" id="'.$rec["itemId"].'">
+                            <span class="icon"><i data-feather="flag"></i></span>
+                            <span class="text"> Make a bid </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>';
 
-                  }
                 }
+              }
+
                ?>
 
-               <!-- popup -->
-
-               <div class="cd-popup" role="alert">
-               	<div class="cd-popup-container cd-popup-container-sm">
-                   <form class="" action="" method="post" id="bidform">
-                    <span class="cd-popup-title"> Make Bid </span>
-
-                 		<div class="cd-popup-body">
-                       <div class="cd-content" id="item_detail">
-                        <!-- display bid popup here -->
-                        <input type="hidden" class="txt-input userId" value="<?php echo $userId; ?>" placeholder="enter the name of the item" name="userId">
-                       </div>
-                     </div>
-                     <div class="cd-buttons">
-                       <span class="btn --btn-flat close"> Close</span>
-                       <button type="submit" name="button" class="btn --btn-primary"> Place Bid </button>
-                     </div>
-
-                 		<a href="#0" class="cd-popup-close img-replace"></a>
-                   </form>
-
-               	</div> <!-- cd-popup-container -->
-               </div> <!-- cd-popup -->
-
-
-            </div>
-
-
-          <?php } ?>
+           </div>
 
           </div>
         </div>
       </div>
-
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
@@ -352,6 +329,9 @@
         e.preventDefault();
       })
 
+      printInvoice = () => {
+        window.print();
+      }
     </script>
     <script>
       feather.replace()

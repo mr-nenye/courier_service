@@ -136,7 +136,7 @@ if(isset($_POST["receiver_id"]) && isset($_POST["sender_id"]) ) {
               </div>
             </div>
             <div class='date'>
-              ".dateDiff($row['timeStam'], "now")."
+              ".dateDiff($row['timeStam'], "now")." ago
             </div>
           </div>";
         }else {
@@ -148,7 +148,7 @@ if(isset($_POST["receiver_id"]) && isset($_POST["sender_id"]) ) {
                </div>
              </div>
              <div class='date'>
-               ".dateDiff($row['timeStam'], "now")."
+               ".dateDiff($row['timeStam'], "now")." ago
              </div>
            </div>
           ";

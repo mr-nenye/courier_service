@@ -112,7 +112,7 @@
               <?php echo $name; ?>
             </div>
             <div class="dropmenu">
-              <a href="#"> <i data-feather='user'></i> Profile </a>
+              <a href="profile"> <i data-feather='user'></i> Profile </a>
               <hr>
               <div class="separator"></div>
               <a href="functions/logout"> <i data-feather="lock"></i> Sign out </a>
@@ -147,10 +147,14 @@
               <div class="col-12">
                 <p class="page-title"> Overview </p>
               </div>
-              <div class="col-3 col-md-3 col-sm-12">
+            </div>
+
+            <div class="row">
+              <div class="col-4 col-md-4 col-sm-12">
                 <div class="stat-card">
-                  <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
-                  <i class="stat-card-icon" data-feather="upload"></i>
+                  <div class="stat-card-icon">
+                    <i class="" data-feather="upload"></i>
+                  </div>
                   <p class="stat-by-number">
                     <?php
 
@@ -169,10 +173,12 @@
                    <small class="stat-title"> Total number of upload </small>
                 </div>
               </div>
-              <div class="col-3 col-md-3 col-sm-12">
+              <div class="col-4 col-md-4 col-sm-12">
                 <div class="stat-card">
-                  <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
-                  <i class="stat-card-icon" data-feather="file-text"></i>
+                  <div class="stat-card-icon danger">
+                    <i data-feather="file-text"></i>
+                  </div>
+
                   <p class="stat-by-number">
                     <?php
 
@@ -191,13 +197,17 @@
                    <small class="stat-title"> Total number of Ticket opened </small>
                 </div>
               </div>
-              <div class="col-3 col-md-3 col-sm-12">
+              <div class="col-4 col-md-4 col-sm-12">
                 <div class="stat-card">
-                  <!-- <span class="stat-card-icon"> <i class="lni-list"></i> </span> <span class=""> Total uploads </span> -->
+                  <div class="stat-card-icon info">
+                    <i data-feather="user-plus"></i>
+                  </div>
                   <p class="stat-by-number">
                     <?php
 
-                      $sql="SELECT * FROM biditem WHERE sellerId = $userId";
+                      $sql="SELECT *  FROM biditem
+                      INNER JOIN bidreport ON biditem.itemId = bidreport.productId
+                      WHERE sellerId = $userId";
 
                       if ($result=mysqli_query($conn,$sql)) {
                         // Return the number of rows in result set
@@ -209,15 +219,225 @@
 
                     ?>
                    </p>
-                   <small class="stat-title"> Total number of upload </small>
+                   <small class="stat-title"> Total bids received </small>
                 </div>
               </div>
+          	</div>
+            <div class="row">
+
+              <div class="col-7 col-md-7 col-sm-12">
+                <div class='request-card accepted full-width'>
+                  <header>
+                    <div>
+                      <h3> Welcome back <br /> <h1><?php echo $name ?></h1></h3>
+                    </div>
+                    <img src="assets/img/dashy2.svg" class="absolute" alt="">
+                  </header>
+
+                  <nav>
+                    <ul>
+                      <li> <h3> Welcome to your dashboard or your little home that gives <br /> you a straight insight on account and activities </h3> </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+
+              <div class="col-5 col-md-5 col-sm-12">
+                <div class='request-card'>
+                  <header>
+                    <div>
+                      <h1> Shippment </h1>
+                    </div>
+                    <img src="assets/img/delivery.svg" class="absolute" alt="">
+                  </header>
+
+                  <nav>
+                    <ul>
+                      <li>
+                        Jump straight into the action and  <br /> create a fresh new delivery item
+                      </li>
+                      <li>
+                        <span class="iconbtn round cd-popup-trigger">
+                            <span class="icon"><i data-feather="file-plus"></i></span>
+                            <span class="text">Create New Delivery</span>
+                        </span>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+
             </div>
 
-            <!-- table display -->
-            <div class="">
 
-          	</div>
+            <!-- popup -->
+
+            <div class="cd-popup" role="alert">
+              <div class="cd-popup-container cd-popup-container-sm">
+                <form class="" action="" method="post" id="prodtform">
+                  <span class="cd-popup-title"> Modal Title </span>
+
+                  <div class="cd-popup-body">
+                    <div class="cd-content">
+                      <div class="row">
+                        <div class="col-12">
+                          <label for="" class="label "> Item name </label>
+                          <input type="text" class="txt-input itemname" placeholder="enter the name of the item" name="itemname">
+                          <small style="text-align: right; color: red" class="error-name"></small>
+                        </div>
+                        <div class="col-12">
+                          <label for="" class="label "> Category </label>
+                          <select class="txt-input category" name="category">
+                            <?php
+
+                              $getCate = "SELECT * FROM category";
+                              $run = mysqli_query($conn, $getCate);
+
+                              if (mysqli_num_rows($run) > 0) {
+                                // code...
+                                while ($row = mysqli_fetch_array($run)) {
+                                  // code...
+                                  echo "<option value=".$row['categoryid']."> ".$row['categoryname']." </option>";
+                                }
+                              }
+
+                             ?>
+                          </select>
+                          <small style="text-align: right; color: red" class="error-category"></small>
+                        </div>
+                        <div class="col-7">
+                          <label for="" class="label "> Pickup address </label>
+                          <input type="text" class="txt-input fromaddress" placeholder="enter pickup address" name="fromaddress">
+                          <small style="text-align: right; color: red" class="error-from-address"></small>
+                        </div>
+                        <div class="col-5">
+                          <label for="" class="label "> Pickup state </label>
+                          <select class="txt-input fromstate" name="fromstate">
+                            <option value="Abia"> Abia </option>
+                            <option value="Adamawa"> Adamawa </option>
+                            <option value="Akwa Ibom"> Akwa Ibom </option>
+                            <option value="Anambra"> Anambra </option>
+                            <option value="Bauchi"> Bauchi </option>
+                            <option value="Bayelsa"> Bayelsa </option>
+                            <option value="Benue"> Benue </option>
+                            <option value="Borno"> Borno </option>
+                            <option value="Cross River"> Cross River </option>
+                            <option value="Delta"> Delta </option>
+                            <option value="Ebonyi"> Ebonyi </option>
+                            <option value="Enugu"> Enugu </option>
+                            <option value="Edo"> Edo </option>
+                            <option value="Ekiti"> Ekiti </option>
+                            <option value="Abuja"> FCT Abuja </option>
+                            <option value="Gombe"> Gombe </option>
+                            <option value="Imo"> Imo </option>
+                            <option value="Jigawa"> Jigawa </option>
+                            <option value="Kaduna"> Kaduna </option>
+                            <option value="Kano"> Kano </option>
+                            <option value="Katsina"> Katsina </option>
+                            <option value="Kebbi"> Kebbi </option>
+                            <option value="Kogi"> Kogi </option>
+                            <option value="Kwara"> Kwara </option>
+                            <option value="Lagos"> Lagos </option>
+                            <option value="Nasarawa"> Nasarawa </option>
+                            <option value="Niger"> Niger </option>
+                            <option value="Ogun"> Ogun </option>
+                            <option value="Ondo"> Ondo </option>
+                            <option value="Osun"> Osun </option>
+                            <option value="Oyo"> Oyo </option>
+                            <option value="Plateau"> Plateau </option>
+                            <option value="Rivers"> Rivers </option>
+                            <option value="Sokoto"> Sokoto </option>
+                            <option value="Taraba"> Taraba </option>
+                            <option value="Yobe"> Yobe </option>
+                            <option value="Zamfara"> Zamfara </option>
+                          </select>
+                          <small style="text-align: right; color: red" class="error-from-state"></small>
+                        </div>
+                        <div class="col-12">
+                          <label for="" class="label "> Recipient name </label>
+                          <input type="text" class="txt-input receivername" placeholder="enter recipient name" name="receivername">
+                          <small style="text-align: right; color: red" class="error-recv-name"></small>
+                        </div>
+                        <div class="col-12">
+                          <label for="" class="label "> Recipient phone number </label>
+                          <input type="text" class="txt-input receiverphone" placeholder="enter recipient phone number" name="receiverphone">
+                          <small style="text-align: right; color: red" class="error-recv-phone"></small>
+                        </div>
+                        <div class="col-7">
+                          <label for="" class="label "> Destination address </label>
+                          <input type="text" class="txt-input toaddress" placeholder="enter destination address" name="toaddress">
+                          <small style="text-align: right; color: red" class="error-to-address"></small>
+                        </div>
+                        <div class="col-5">
+                          <label for="" class="label "> Destination state </label>
+                          <select class="txt-input tostate" name="tostate">
+                            <option value="Abia"> Abia </option>
+                            <option value="Adamawa"> Adamawa </option>
+                            <option value="Akwa Ibom"> Akwa Ibom </option>
+                            <option value="Anambra"> Anambra </option>
+                            <option value="Bauchi"> Bauchi </option>
+                            <option value="Bayelsa"> Bayelsa </option>
+                            <option value="Benue"> Benue </option>
+                            <option value="Borno"> Borno </option>
+                            <option value="Cross River"> Cross River </option>
+                            <option value="Delta"> Delta </option>
+                            <option value="Ebonyi"> Ebonyi </option>
+                            <option value="Enugu"> Enugu </option>
+                            <option value="Edo"> Edo </option>
+                            <option value="Ekiti"> Ekiti </option>
+                            <option value="Abuja"> FCT Abuja </option>
+                            <option value="Gombe"> Gombe </option>
+                            <option value="Imo"> Imo </option>
+                            <option value="Jigawa"> Jigawa </option>
+                            <option value="Kaduna"> Kaduna </option>
+                            <option value="Kano"> Kano </option>
+                            <option value="Katsina"> Katsina </option>
+                            <option value="Kebbi"> Kebbi </option>
+                            <option value="Kogi"> Kogi </option>
+                            <option value="Kwara"> Kwara </option>
+                            <option value="Lagos"> Lagos </option>
+                            <option value="Nasarawa"> Nasarawa </option>
+                            <option value="Niger"> Niger </option>
+                            <option value="Ogun"> Ogun </option>
+                            <option value="Ondo"> Ondo </option>
+                            <option value="Osun"> Osun </option>
+                            <option value="Oyo"> Oyo </option>
+                            <option value="Plateau"> Plateau </option>
+                            <option value="Rivers"> Rivers </option>
+                            <option value="Sokoto"> Sokoto </option>
+                            <option value="Taraba"> Taraba </option>
+                            <option value="Yobe"> Yobe </option>
+                            <option value="Zamfara"> Zamfara </option>
+                          </select>
+                          <small style="text-align: right; color: red" class="error-to-state"></small>
+                        </div>
+                        <div class="col-6 col-md-6 col-sm-12">
+                          <label for="" class="label "> Quantity </label>
+                          <input type="number" class="txt-input quantity" placeholder="enter quantity" name="quantity">
+                          <small style="text-align: right; color: red" class="error-quantity"></small>
+                        </div>
+                        <div class="col-6 col-md-6 col-sm-12">
+                          <label for="" class="label "> Starting price </label>
+                          <input type="text" class="txt-input startprice" placeholder="enter your base price" name="startprice">
+                          <small style="text-align: right; color: red" class="error-start-price"></small>
+                        </div>
+                        <div class="col-6 col-md-6 col-sm-12">
+                          <input type="hidden" class="txt-input userId"  placeholder="enter your base price" value="<?php echo $userId; ?>"  name="userId">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cd-buttons">
+                    <span class="btn --btn-flat close"> close</span>
+                    <button type="submit" name="button" class="btn --btn-primary" onclick="updateDiv()"> place order </button>
+                  </div>
+
+                  <a href="#0" class="cd-popup-close img-replace"></a>
+                </form>
+
+              </div> <!-- cd-popup-container -->
+            </div> <!-- cd-popup -->
+
 
 
           <?php  } elseif ($role === 'carrier') {?>
@@ -226,6 +446,74 @@
 
               <div class="col-12">
                 <p class="page-title"> Overview </p>
+              </div>
+
+              <div class="row">
+
+            	</div>
+
+              <div class="col-7 col-md-7 col-sm-12">
+                <div class='request-card accepted full-width'>
+                  <header>
+                    <div>
+                      <h3> Welcome back <br /> <h1><?php echo $name ?></h1></h3>
+                    </div>
+                    <img src="assets/img/dashy2.svg" class="absolute" alt="">
+                  </header>
+
+                  <nav>
+                    <ul>
+                      <li> <h3> Welcome to your dashboard or your little home that gives <br /> you a straight insight on account and activities </h3> </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <div class="col-6 col-md-6 col-sm-12">
+                <div class="stat-card">
+                  <div class="stat-card-icon">
+                    <i class="" data-feather="flag"></i>
+                  </div>
+                  <p class="stat-by-number">
+                    <?php
+
+                      $sql="SELECT * FROM bidreport WHERE bidder = $userId";
+
+                      if ($result=mysqli_query($conn,$sql)) {
+                        // Return the number of rows in result set
+                        $rowcount=mysqli_num_rows($result);
+                        printf(" %d \n",$rowcount);
+                        // Free result set
+                        mysqli_free_result($result);
+                      }
+
+                    ?>
+                   </p>
+                   <small class="stat-title"> Total number of bid made </small>
+                </div>
+              </div>
+              <div class="col-6 col-md-6 col-sm-12">
+                <div class="stat-card">
+                  <div class="stat-card-icon danger">
+                    <i data-feather="check"></i>
+                  </div>
+
+                  <p class="stat-by-number">
+                    <?php
+
+                      $sql="SELECT * FROM bidreport WHERE bidder = $userId AND status = 1";
+
+                      if ($result=mysqli_query($conn,$sql)) {
+                        // Return the number of rows in result set
+                        $rowcount=mysqli_num_rows($result);
+                        printf(" %d \n",$rowcount);
+                        // Free result set
+                        mysqli_free_result($result);
+                      }
+
+                    ?>
+                   </p>
+                   <small class="stat-title"> Total number of bid accepted </small>
+                </div>
               </div>
 
               <div class="limiter">

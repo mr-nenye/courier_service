@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/flexgrid.css">
     <link rel="stylesheet" href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
   </head>
   <body class="--bg-pattern">
 
@@ -38,11 +39,11 @@
       </div>
     </div>
 
-    <div class="container-sm">
+    <div class="container">
       <div class="wrapper --marg-y-100">
         <p class="header-title"> <i class="lni-pencil-alt"></i> create your account </p>
 
-        <form class="" action="" method="post" id="regform">
+        <form class="" action="" method="post" id="">
           <div class="row">
             <div class="col-12">
               <!-- <span class=""> Enter your information </span> -->
@@ -69,58 +70,67 @@
             </div>
             <div class="col-12">
               <label for="" class="label font-oswald"> Role </label> <br>
-              <input type="radio" class="form-radio role" id="check-radio-1" name="role" value="commissioner"><label for="check-radio-1" class="medium"> commissioner </label>
-              <input type="radio" class="form-radio role" id="check-radio-2" name="role" value="carrier"><label for="check-radio-2" class="medium"> Carrier </label>
+              <input type="radio" class="form-radio role" id="check-radio-1" name="role" value="commissioner" onclick="hide();"><label for="check-radio-1" class="medium"> commissioner </label>
+              <input type="radio" class="form-radio role" id="check-radio-2" name="role" value="carrier" onclick="show();" ><label for="check-radio-2" class="medium"> Carrier </label>
               <small style="text-align: right; color: red" class="urole"></small>
             </div>
 
-            <div class="col-12">
-              <label for="" class="label font-oswald"> Courier Category </label>
+              <div class="categorys" id="categorys">
+                <div class="row">
+                  <div class="col-12">
+                    <label for="" class="label font-oswald"> Courier category </label>
+                  </div>
+                  <div class="col-6 negMarginTop">
+                    <input type="checkbox" class="form-checkbox" name="cate" id="check-one" value="Vehicles and Boats"><label for="check-one" class="medium">
+                      Vehicles and Boats
+                    </label>
+                  </div>
+                  <div class="col-6 negMarginTop">
+                    <input type="checkbox" class="form-checkbox" name="cate" id="check-two" value="House hold items"><label for="check-two" class="medium">
+                       House hold items
+                     </label>
+                   </div>
+                   <div class="col-6 negMarginTop">
+                    <input type="checkbox" class="form-checkbox" name="cate" id="check-thirteen" value="Moves"><label for="check-three" class="medium">
+                      Moves
+                    </label>
+                  </div>
+                  <div class="col-6 negMarginTop">
+                    <input type="checkbox" class="form-checkbox" name="cate" id="check-four" value="Heavy equipments"><label for="check-four" class="medium">
+                      Heavy equipments
+                    </label>
+                  </div>
+                  <div class="col-6 negMarginTop">
+                    <input type="checkbox" class="form-checkbox" name="cate" id="check-five" value="Freight"><label for="check-five" class="medium">
+                      Freight
+                    </label>
+                  </div>
+                  <div class="col-6 negMarginTop">
+                    <input type="checkbox" class="form-checkbox" name="cate" id="check-six" value="Live animals"><label for="check-six" class="medium">
+                      Live animals
+                    </label>
+                  </div>
+                  <div class="col-6 negMarginTop">
+                    <input type="checkbox" class="form-checkbox" name="cate" id="check-seven" value="Frozen items"><label for="check-seven" class="medium">
+                      Frozen items
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-6 negMarginTop">
-               <br>
-              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-one" value="Vehicles and Boats"><label for="check-one" class="medium">
-                Vehicles and Boats
-              </label>
-            </div>
-            <div class="col-6 negMarginTop">
-              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-two" value="House hold items"><label for="check-two" class="medium">
-                 House hold items
-               </label>
-             </div>
-             <div class="col-6 negMarginTop">
-              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-thirteen" value="Moves"><label for="check-three" class="medium">
-                Moves
-              </label>
-            </div>
-            <div class="col-6 negMarginTop">
-              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-four" value="Heavy equipments"><label for="check-four" class="medium">
-                Heavy equipments
-              </label>
-            </div>
-            <div class="col-6 negMarginTop">
-              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-five" value="Freight"><label for="check-five" class="medium">
-                Freight
-              </label>
-            </div>
-            <div class="col-6 negMarginTop">
-              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-six" value="Live animals"><label for="check-six" class="medium">
-                Live animals
-              </label>
-            </div>
-            <div class="col-6 negMarginTop">
-              <input type="checkbox" class="form-checkbox" name="cate[]" id="check-six" value="Frozen items"><label for="check-six" class="medium">
-                Frozen items
-              </label>
-            </div>
+            <div class="row --center">
+              <div class="col-12">
+                <button>
+                  <span class="iconbtn round cd-popup-trigger" id="regform">
+                      <span class="icon"><i data-feather="user-plus"></i></span>
+                      <span class="text">Create accouont</span>
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="row --center">
-            <div class="col-12">
-              <button class="btn --btn-primary" name="createBtn"> Register </button>
-            </div>
-          </div>
+
         </form>
 
         <div class="--center">
@@ -131,7 +141,7 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-      $("#regform").on("submit",function(e){
+      $("#regform").on("click",function(e){
 
 
         $('.uname').html('');
@@ -146,6 +156,14 @@
             var phone = $(".phone").val();
             var email = $('.email').val();
             var role = $("input[name='role']:checked").val();
+
+            if (role === 'carrier') {
+              $('.categorys').css('display', 'block')
+            }
+
+            var categories = $("input[name='cate']:checked").map(function() {
+                return this.value;
+            }).get().join(', ');
             // var radioValue = $("input[name='gender']:checked").val();
 
             if($(".name").val()==""){
@@ -177,8 +195,9 @@
                $.ajax({
                 type:"POST",
                 url:"functions/registerUser.php",
-                data:{"name":name,"password":password,"email":email,"phone":phone, "role":role},
+                data:{"name":name,"password":password,"email":email,"phone":phone, "role":role, "categories":categories},
                 success:function(result){
+                  alert(result);
                 if(result==0){
                   $("#danger-msg").css("display", "block");
                 }else{
@@ -194,6 +213,16 @@
 
 
       });
+
+      function show(){
+        document.getElementById('categorys').style.display = 'block';
+      }
+      function hide(){
+        document.getElementById('categorys').style.display = 'none';
+      }
+    </script>
+    <script>
+      feather.replace()
     </script>
 
   </body>

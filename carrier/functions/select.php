@@ -15,7 +15,7 @@ if(isset($_POST["item_id"]))
      $output .= '
        <div class="col-12 col-md-12 col-sm-12">
          <label for="" class="label "> Parcel Name </label>
-         <span class="desp"> '.$row["name"].' </span>
+         <span class="desp"> '.$row["itemname"].' </span>
        </div>
        <div class="col-6 col-md-6 col-sm-12">
          <label for="" class="label "> Pick up State </label>

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/flexgrid.css">
     <link rel="stylesheet" href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
   </head>
   <body class="--bg-pattern">
 
@@ -25,7 +26,7 @@
 
         </div>
 
-        <form class="" action="" method="post" id="loginform">
+        <form class="" action="" method="post" id="">
           <div class="row">
             <div class="col-12">
             </div>
@@ -47,7 +48,12 @@
 
           <div class="row --center">
             <div class="col-12">
-              <button class="btn --btn-primary" name="loginBtn"> Login </button>
+              <button>
+                <span class="iconbtn round cd-popup-trigger" id="loginform">
+                    <span class="icon"><i data-feather="unlock"></i></span>
+                    <span class="text">Login</span>
+                </span>
+              </button>
             </div>
           </div>
         </form>
@@ -60,7 +66,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-      $("#loginform").on("submit",function(e){
+      $("#loginform").on("click",function(e){
 
 
         $('.umail').html('');
@@ -108,6 +114,9 @@
 
 
       });
+    </script>
+    <script>
+      feather.replace()
     </script>
   </body>
 </html>

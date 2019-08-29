@@ -18,7 +18,7 @@
 	  }
   }
 
-  $itemId = $_GET['q'];
+  // $itemId = $_GET['q'];
 
  ?>
 <!DOCTYPE html>
@@ -126,8 +126,6 @@
         <div class="content-section">
           <div class="container-lg">
 
-            <?php if($role === 'commissioner') { ?>
-
               <div class="page__section">
                 <nav class="breadcrumb breadcrumb_type1" aria-label="Breadcrumb">
                   <ol class="breadcrumb__list r-list">
@@ -142,109 +140,91 @@
                 </nav>
               </div>
 
-              <p class="page-title"> My Offers </p>
 
-            <!-- table display -->
-            <div class="">
-              <input type="hidden" value="<?php echo $itemId ?>" name="itemId" class="itemId"/>
-              <div class="row" id="target">
+            <?php  if ($role === 'commissioner') {?>
+                <p class="page-title"> My Offers </p>
 
-              </div>
-            </div>
-           </div>
+            <?php  } elseif ($role === 'carrier') {?>
+              <p class="page-title"> My Invoice </p>
 
-
-          <?php  } elseif ($role === 'carrier') {?>
-
-            <div class="row">
-
-              <?php
-                $getPublicItems = "SELECT * FROM biditem";
-                $runget = mysqli_query($conn, $getPublicItems);
-
-                if (mysqli_num_rows($runget) > 0) {
-                  // code...
-                  while($rec = mysqli_fetch_array($runget)) {
-
-                    echo '
-                    <div class="col-4 col-md-4 col-sm-12">
-                      <div class="box-of-stuff">
-                        <span class="box-name"> '.$rec["name"].' </span>
-
-                        <!-- <p class="desp"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p> -->
-
-                        <div class="row">
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Pick up State </label>
-                            <span class="desp"> '.$rec["fromstate"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Pick up Address </label>
-                            <span class="desp"> '.$rec["fromaddress"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Delivery State </label>
-                            <span class="desp"> '.$rec["tostate"].' </span>
-                          </div>
-                          <div class="col-6 col-md-6 col-sm-12">
-                            <label for="" class="label "> Delivery Address </label>
-                            <span class="desp"> '.$rec["toaddress"].' </span>
-                          </div>
-                          <div class="col-12 col-md-12 col-sm-12">
-                            <label for="" class="label "> Starting Price </label>
-                            <span class="desp"> '.$rec["startprice"].' </span>
-                          </div>
-                          <form class="accptForm">
-                            <input type="hidden" value="'.$rec["itemId"].'" />
-                          </form>
-                        </div>
-
-                        <div class="view-bid-btn">
-                          <button href="" class="btn --btn-primary cd-popup-trigger" id="'.$rec["itemId"].'"> Place Bid </button>
-                        </div>
-                      </div>
+              <div class="container-sm">
+                <span class='iconbtn round cd-popup-trigger' onclick="printInvoice()">
+                    <span class='icon'><i data-feather='printer'></i></span>
+                    <span class='text'>Print invoice</span>
+                </span>
+                <div class="invoice">
+                  <div class="invoice-header">
+                    <div class="">
+                      <p>logo</p>
                     </div>
-                    ';
+                    <div class="align-right">
+                      <p>Invoice</p>
+                    </div>
+                  </div>
+                  <div class="invoice-meta">
+                    <div class="">
 
-                  }
-                }
-               ?>
+                    </div>
+                    <div class="align-right">
+                      <p> ORDER #800000025 </p>
+                      <p> MARCH 4TH 2016 </p>
+                    </div>
+                  </div>
+                  <div class="">
+                    <table>
+                  		<thead>
+                  			<tr class="table100-head">
+                  				<th class="column1" style="width: 220px;">Item</th>
+                  				<th class="column2" style="width: 520px;">Carrier</th>
+                  				<th class="column3">quantity</th>
+                  				<th class="column4">Price</th>
+                  			</tr>
+                  		</thead>
+                  		<tbody>
+                        <tr>
+                          <td class="column1">name my item</td>
+                          <td class="column2">Jonn Newmann</td>
+                          <td class="column3">4</td>
+                          <td class="column4">98,344</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="invoice-meta">
+                    <div class="">
 
-               <!-- popup -->
+                    </div>
+                    <div class="align-right">
+                      <p> Grand Total: &nbsp; <b>98,344.00</b> </p>
+                    </div>
+                  </div>
+                  <div class="invoice-meta">
+                    <div class="">
+                      <h3>BILLING INFORMATION</h3>
+                      <small>Philip Brooks</small>
+                      <small>Public Wales, Somewhere</small>
+                      <small>New York NY</small>
+                      <small>4468, United States</small>
+                      <small>T: 202-555-0133</small>
+                    </div>
+                    <div class="align-right">
+                      <h3>PAYMENT METHOD</h3>
+                      <small>Credit Card</small>
+                      <small>Credit Card Type: Visa</small>
+                      <small>Worldpay Transaction ID: 4185939336</small>
+                      <small>Right of Withdrawal</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-               <div class="cd-popup" role="alert">
-               	<div class="cd-popup-container cd-popup-container-sm">
-                   <form class="" action="" method="post" id="bidform">
-                    <span class="cd-popup-title"> Make Bid </span>
+            <?php } ?>
 
-                 		<div class="cd-popup-body">
-                       <div class="cd-content" id="item_detail">
-                        <!-- display bid popup here -->
-                        <input type="hidden" class="txt-input userId" value="<?php echo $userId; ?>" placeholder="enter the name of the item" name="userId">
-                       </div>
-                     </div>
-                     <div class="cd-buttons">
-                       <span class="btn --btn-flat close"> Close</span>
-                       <button type="submit" name="button" class="btn --btn-primary"> Place Bid </button>
-                     </div>
-
-                 		<a href="#0" class="cd-popup-close img-replace"></a>
-                   </form>
-
-               	</div> <!-- cd-popup-container -->
-               </div> <!-- cd-popup -->
-
-
-            </div>
-
-
-          <?php } ?>
+           </div>
 
           </div>
         </div>
       </div>
-
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
@@ -352,6 +332,9 @@
         e.preventDefault();
       })
 
+      printInvoice = () => {
+        window.print();
+      }
     </script>
     <script>
       feather.replace()

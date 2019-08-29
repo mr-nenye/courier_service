@@ -112,7 +112,7 @@
               <?php echo $name; ?>
             </div>
             <div class="dropmenu">
-              <a href="#"> <i data-feather='user'></i> Profile </a>
+              <a href="profile"> <i data-feather='user'></i> Profile </a>
               <hr>
               <div class="separator"></div>
               <a href="#"> <i data-feather="lock"></i> Sign out </a>
@@ -143,110 +143,49 @@
 
             <?php if($role === 'commissioner') { ?>
 
-            <p class="page-title"> My Package</p>
+              <div class="page__section">
+                <nav class="breadcrumb breadcrumb_type1" aria-label="Breadcrumb">
+                  <ol class="breadcrumb__list r-list">
+                    <li class="breadcrumb__group">
+                      <a href="#0" class="breadcrumb__point r-link">Dashboard</a>
+                      <span class="breadcrumb__divider" aria-hidden="true">/</span>
+                    </li>
+                    <li class="breadcrumb__group">
+                      <span class="breadcrumb__point" aria-current="page">My packages</span>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+
             <!-- table display -->
             <div class="limiter">
               <div class="table-tops">
-                <span class="table-title">  </span>
-                <span class="btn --btn-primary cd-popup-trigger"> <i data-feather="file-plus"></i> create new delivery</span>
+                <span class="table-title"> My Package </span>
+                <!-- <span class="btn --btn-primary cd-popup-trigger"> <i data-feather="file-plus"></i> create new delivery</span> -->
                 <span class="table-switch --list"> <i data-feather="list"></i> </span>
                 <span class="table-switch --grid"> <i data-feather="grid"></i> </span>
+
+                <span class="iconbtn round cd-popup-trigger">
+                    <span class="icon"><i data-feather="file-plus"></i></span>
+                    <span class="text">Create New Delivery</span>
+                </span>
               </div>
           		<div class="container-table100">
           			<div class="wrap-table100">
           				<div class="table100">
-
-                        <?php
-                          $getMyStuffs = "SELECT DISTINCT a.*, (SELECT COUNT(*) FROM bidreport WHERE productid = a.itemId ) AS total FROM biditem a WHERE a.sellerId = $userId ORDER BY date_made DESC";
-                          $run = mysqli_query($conn, $getMyStuffs);
-
-                          if (mysqli_num_rows($run) > 0) {
-                            // code...
-                            echo "<table class='list-view'>
-                  						<thead>
-                  							<tr class='table100-head'>
-                  								<th class='column1'>Date</th>
-                  								<th class='column2'>Order ID</th>
-                  								<th class='column3'>Name</th>
-                  								<th class='column4'>Price</th>
-                  								<th class='column5'>Bids</th>
-                  								<th class='column6'>  </th>
-                  							</tr>
-                  						</thead>
-                  						<tbody>";
-                            while($row = mysqli_fetch_array($run)) {
-                              echo "<tr>
-              									<td class='column1'>".$row['date_made']."</td>
-              									<td class='column2'>200398</td>
-              									<td class='column3'>".$row['name']."</td>
-              									<td class='column4'>".$row['startprice']."</td>
-              									<td class='column5'>".$row['total']."</td>
-              									<td class='column6'>
-                                  <a href='overview?q=".$row['itemId']."' class=''> Open </a> &nbsp;&nbsp;&nbsp;
-                                  <a href='offer?q=".$row['itemId']."' class='tbl-btn'> view bids </a>
-                                </td>
-              								</tr>";
-                            }
-                            echo "</tbody></table>";
-                          } else {
-
-                            echo "
-                            <div class='empty-state'>
-                              <div class='--center'>
-                                <div class='col-7 col-md-7 col-sm-12 --center'>
-                                  <img src='assets/img/empty-state.svg' />
-                                </div>
-                                <div class='col-5 col-md-5 col-sm-12 --center'>
-                                  <h3> No file found </h3>
-                                  <span> Click on the <b> Create New Delivery </b> buttno to start  </span>
-                                </div>
-                              </div>
-                            </div>
-                            ";
-
-                          }
-
-                         ?>
-
-
-                    <div class="card-view">
-                      <div class="row">
-                      <?php
-                        $getMyStuffs = "SELECT DISTINCT a.*, (SELECT COUNT(*) FROM bidreport WHERE productid = a.itemId ) AS total FROM biditem a WHERE a.sellerId = $userId ORDER BY date_made DESC";
-                        $run = mysqli_query($conn, $getMyStuffs);
-
-                        if (mysqli_num_rows($run) > 0) {
-                          // code...
-                          while($row = mysqli_fetch_array($run)) {
-                            echo "<div class='col-4 col-md-4 col-sm-12'>
-                              <div class='panel'>
-                                <div class='panel-body job'>
-                                  <span class='badge badge-success'> ".$row['startprice']."  </span>
-                                  <h4> ".$row['name']." </h4>
-                                  <ul class='tags'>
-                                    <li> 3 new messages </li>
-                                    <li> ".$row['total']." bids </li>
-                                  </ul>
-                                  <span class='date'> <i data-feather='calendar'></i> ".$row['date_made']." </span>
-                                  <a href='' class='badge badge-link'> ".$row['total']." Bids </a>
-                                </div>
-                              </div>
-                            </div>";
-                          }
-                        }
-                      ?>
+                    <div id="target">
                     </div>
-                    </div>
-                    <div class="pagination p2">
+                    <!-- <div class="pagination p2">
                      <ul>
-                       <a href="#"><li>1</li></a>
-                       <a class="is-active" href="#"><li>2</li></a>
-                       <a href="#"><li>3</li></a>
-                       <a href="#"><li>4</li></a>
-                       <a href="#"><li>5</li></a>
-                       <a href="#"><li>6</li></a>
+                       <?php if(!empty($total_pages)):for($i=1; $i<=$total_pages; $i++):
+                      		if($i == 1):?>
+                                  <a class='is-active' id="<?php echo $i;?>" href='mypackage?page=<?php echo $i;?>'><li id="<?php echo $i;?>"><?php echo $i;?></li></a>
+                      		<?php else:?>
+                      		<a href='mypackage?page=<?php echo $i;?>'><li id="<?php echo $i;?>"><?php echo $i;?></li></a>
+                      		<?php endif;?>
+                       <?php endfor;endif;?>
                      </ul>
-                   </div>
+                   </div> -->
           				</div>
           			</div>
           		</div>
@@ -423,125 +362,39 @@
 
           <?php  } elseif ($role === 'carrier') {?>
 
+            <div class="page__section">
+              <nav class="breadcrumb breadcrumb_type1" aria-label="Breadcrumb">
+                <ol class="breadcrumb__list r-list">
+                  <li class="breadcrumb__group">
+                    <a href="#0" class="breadcrumb__point r-link">Dashboard</a>
+                    <span class="breadcrumb__divider" aria-hidden="true">/</span>
+                  </li>
+                  <li class="breadcrumb__group">
+                    <span class="breadcrumb__point" aria-current="page">Marketplace</span>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
             <p class="page-title"> Marketplace </p>
 
-
             <div class="row">
+              <div class="col-3 col-md-3 col-sm-12">
+                <input type="text" class="txt-input search_input" placeholder="Search by item name OR item owner" name="search_input" id="search_input">
+              </div>
+              <div class="col-2 col-md-2 col-sm-12">
+                <select class="txt-input state" name="state" autocomplete="off">
+                </select>
+              </div>
+              <div class="col-3 col-md-3 col-sm-12">
+                <!-- <span class="actBtn iconbtn round cd-popup-trigger" id="'.$rec["itemId"].'" style="margin-top: 1px;">
+                    <span class="icon"><i data-feather="filter"></i></span>
+                    <span class="text"> Filter </span>
+                </span> -->
+              </div>
+            </div>
 
-              <?php
-                $getPublicItems = "SELECT *, (SELECT name FROM users WHERE userid = sellerId ) as commissioner FROM biditem";
-                $runget = mysqli_query($conn, $getPublicItems);
-
-                if (mysqli_num_rows($runget) > 0) {
-                  // code...
-                  while($rec = mysqli_fetch_array($runget)) {
-
-                    echo '
-                    <div class="col-4 col-md-4 col-sm-12">
-                      <div class="card">
-                        <div class="card-container">
-                          <p class="title">'.$rec["name"].'</p>
-                          <div class="commissioner">
-                            <div class="icon">
-                              <i data-feather="user"></i>
-                            </div>
-                            <div class="name">
-                              <span> '.$rec["commissioner"].' </span>
-                            </div>
-                            <div class="pill">
-                              4 bid(s)
-                            </div>
-                          </div>
-                          <ul class="timeline">
-                              <li class="timeline-item">
-                                  <div class="timeline-info">
-                                      <span>Origin</span>
-                                  </div>
-                                  <div class="timeline-marker"></div>
-                                  <div class="timeline-content">
-                                      <span class="timeline-title">'.$rec["fromstate"].'</span>
-                                      <!-- <p>'.$rec["fromaddress"].'</p> -->
-                                  </div>
-                              </li>
-                              <li class="timeline-item">
-                                  <div class="timeline-info">
-                                      <span>Destination</span>
-                                  </div>
-                                  <div class="timeline-marker"></div>
-                                  <div class="timeline-content">
-                                      <span class="timeline-title">'.$rec["tostate"].'</span>
-                                      <!-- <p>'.$rec["toaddress"].'</p> -->
-                                  </div>
-                              </li>
-                          </ul>
-                          <span> Starting price </span>
-                          <p class="desp"> '.$rec["startprice"].' </p>
-                        </div>
-                        <div class="actBtn cd-popup-trigger" id="'.$rec["itemId"].'"> place bid </div>
-                      </div>
-                       <!--<div class="box-of-stuff">
-                         <span class="box-name">  </span>
-
-                          <p class="desp"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-
-                         <div class="row">
-                           <div class="col-6 col-md-6 col-sm-12">
-                             <label for="" class="label "> Pick up State </label>
-                             <span class="desp"> '.$rec["fromstate"].' </span>
-                           </div>
-                           <div class="col-6 col-md-6 col-sm-12">
-                             <label for="" class="label "> Pick up Address </label>
-                             <span class="desp"> '.$rec["fromaddress"].' </span>
-                           </div>
-                           <div class="col-6 col-md-6 col-sm-12">
-                             <label for="" class="label "> Delivery State </label>
-                             <span class="desp"> '.$rec["tostate"].' </span>
-                           </div>
-                           <div class="col-6 col-md-6 col-sm-12">
-                             <label for="" class="label "> Delivery Address </label>
-                             <span class="desp"> '.$rec["toaddress"].' </span>
-                           </div>
-                           <div class="col-12 col-md-12 col-sm-12">
-                             <label for="" class="label "> Starting Price </label>
-                             <span class="desp"> '.$rec["startprice"].' </span>
-                           </div>
-                         </div>
-
-                         <div class="view-bid-btn">
-                           <button href="" class="btn --btn-primary cd-popup-trigger" id="'.$rec["itemId"].'"> Place Bid </button>
-                         </div>
-                      </div>-->
-                    </div>
-                    ';
-
-                  }
-                }
-               ?>
-
-               <!-- popup -->
-
-               <div class="cd-popup" role="alert">
-               	<div class="cd-popup-container cd-popup-container-sm">
-                   <form class="" action="" method="post" id="bidform">
-                    <span class="cd-popup-title"> Make Bid </span>
-
-                 		<div class="cd-popup-body">
-                       <div class="cd-content" id="item_detail">
-                        <!-- display bid popup here -->
-                        <input type="hidden" class="txt-input userId" value="<?php echo $userId; ?>" placeholder="enter the name of the item" name="userId">
-                       </div>
-                     </div>
-                     <div class="cd-buttons">
-                       <span class="btn --btn-flat close"> Close</span>
-                       <button type="submit" name="button" class="btn --btn-primary"> Place Bid </button>
-                     </div>
-
-                 		<a href="#0" class="cd-popup-close img-replace"></a>
-                   </form>
-
-               	</div> <!-- cd-popup-container -->
-               </div> <!-- cd-popup -->
-
+            <div class="row" id="fetchMarket">
 
             </div>
 
@@ -578,7 +431,6 @@
           });
       });
     </script>
-
     <script type="text/javascript">
       $("#prodtform").on("submit", function(e) {
         // e.preventDefault();
@@ -643,56 +495,7 @@
         e.preventDefault();
       })
 
-      $(document).on('click', '.cd-popup-trigger', function(){
-        //$('#dataModal').modal();
-        var item_id = $(this).attr("id");
-        $.ajax({
-         url:"functions/select.php",
-         method:"POST",
-         data:{item_id:item_id},
-         success:function(data){
-          $('#item_detail').html(data);
-          $('.cd-popup').addClass('is-visible');
-         }
-        });
-      });
 
-      $("#bidform").on("submit", function(e) {
-        // e.preventDefault();
-        $('.error-oppoBid').html('');
-
-        var oppoBid = $(".oppoBid").val();
-        var item_id = $(".item_id").val();
-        var userId = $(".userId").val();
-
-        if($(".oppoBid").val()==""){
-          $(".error-oppoBid").html("Enter your countr bid.");
-          $(".error-oppoBid").css("color", "red");
-          $(".oppoBid").focus();
-        }else {
-          $.ajax({
-            type: "POST",
-            url:"functions/placebid.php",
-            data: {
-              "oppoBid":oppoBid,
-              "item_id":item_id,
-              "userId":userId
-            },
-            success:function(result){
-              alert(result);
-             if(result==0){
-               // alert(result);
-               $("#message").html("An error occured. Item nor added");
-               $("#message").css("color", "red");
-             } else{
-               $("#message").html("Item added Successfully");
-               $("#message").css("color", "green");
-              }
-            }
-          })
-        }
-        e.preventDefault();
-      })
 
       $(document).ready( function() {
 
@@ -721,6 +524,83 @@
     </script>
     <script>
       feather.replace()
+    </script>
+    <script>
+      $(document).ready(function() {
+        load_data();
+        function load_data(page) {
+          $.ajax({
+            url: 'pagination/mypackage.php',
+            method: 'POST',
+            data: {page:page},
+            success: function (data) {
+              $('#target').html(data);
+            }
+          })
+        }
+
+        $(document).on('click', '.pagination_link', function() {
+          var page = $(this).attr('id');
+          load_data(page);
+        })
+      })
+
+      $(document).ready(function() {
+        var text = $(this).val();
+        $.ajax({
+          url: 'pagination/fetchMarket',
+          method: 'POST',
+          data: {search:text},
+          dataType: 'text',
+          success: function(data) {
+            $('#fetchMarket').html(data)
+          }
+        })
+
+        $('#search_input').keyup(function() {
+          var text = $(this).val();
+          console.log(text);
+          if(text != "") {
+            if(text.length == 3) {
+              $.ajax({
+                url: 'pagination/fetchMarket',
+                method: 'POST',
+                data: {search:text},
+                dataType: 'text',
+                success: function(data) {
+                  $('#fetchMarket').html(data)
+                }
+              })
+            }
+          } else{
+            // $('#fetchMarket').html('');
+            $.ajax({
+              url: 'pagination/fetchMarket',
+              method: 'POST',
+              data: {search:text},
+              dataType: 'text',
+              success: function(data) {
+                $('#fetchMarket').html(data)
+              }
+            })
+          }
+        })
+
+
+        // load_by_cate()
+        // function load_by_cate(query = "") {
+        //   $.ajax({
+        //     url: '',
+        //     method: 'POST',
+        //     data: {query:query},
+        //     success: function (data) {
+        //       $('#fetchMarket').html(data);
+        //     }
+        //   })
+        // }
+
+      })
+
     </script>
   </body>
 </html>
